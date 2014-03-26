@@ -1,0 +1,227 @@
+<html>
+<head>
+<title>The xtype C library</title>
+</head>
+
+<body>
+<center>
+<h1>The xtype C Library, Version 1.00</h1>
+<h2>The XLIST Type</h2>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#xlappend">xlappend</a>
+<li><a href="#xlbehead">xlbehead</a>
+<li><a href="#xldata">xldata</a>
+<li><a href="#xldelete">xldelete</a>
+<li><a href="#xldequeue">xldequeue</a>
+<li><a href="#xlend">xlend</a>
+<li><a href="#xlenqueue">xlenqueue</a>
+<li><a href="#xlfree">xlfree</a>
+<li><a href="#xlget">xlget</a>
+<li><a href="#xllen">xllen</a>
+<li><a href="#xlnew">xlnew</a>
+<li><a href="#xlnext">xlnext</a>
+<li><a href="#xlpop">xlpop</a>
+<li><a href="#xlprepend">xlprepend</a>
+<li><a href="#xlprev">xlprev</a>
+<li><a href="#xlpush">xlpush</a>
+<li><a href="#xlrewind">xlrewind</a>
+<li><a href="#xlsize">xlsize</a>
+</ol>
+<hr>
+<a name="xlappend">
+<h3>XLIST *xlappend(XLIST *xl, void *p, int s)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Append a node to the list pointed to by xl. The new node will contained the
+data in a buffer of size s pointed to by p.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure.
+<li>xl, otherwise.
+</ul>
+<hr>
+<a name="xlbehead">
+<h3>void *xlbehead(XLIST *xl, void *p)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Delete the head of the list pointed to by xl, copying the data in it into the
+buffer pointed to by p if p is not NULL. The list cursor will point to the new
+head of the list.
+<h4>Returns</h4>
+<ul>
+<li>p.
+</ul>
+<hr>
+<a name="xldata">
+<h3>void *xldata(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Obtain a pointer to the data contained in the current node of the list pointed
+to by xl.
+<h4>Returns</h4>
+<ul>
+<li>a pointer to the current data of xl
+</ul>
+<hr>
+<a name="xldelete">
+<h3>void xldelete(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Delete the current node of the list pointed to by xl.
+<hr>
+<a name="xldequeue">
+<h3>void *xldequeue(XLIST *xl, void *p)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Pseudonym for xlbehead().
+<hr>
+<a name="xlend">
+<h3>int xlend(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Test the list pointed to by xl to see if its cursor is at the end of the list.
+xlend() is implemented as a macro.
+<h4>Returns</h4>
+<ul>
+<li>0, if xl's cursor is not at the end of the list
+<li>non-zero, if xl's cursor is at the end of the list
+</ul>
+<hr>
+<a name="xlenqueue">
+<h3>XLIST *xlenqueue(XLIST *xl, void *p, int s)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Pseudonym for xlappend().
+<hr>
+<a name="xlfree">
+<h3>void xlfree(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+De-allocate the memory used by the list pointed to by xl. xlfree() frees the
+memory used by the XLIST structure itself; if the node elements are pointers
+to dynamically-allocated objects, these must be freed separately. Do not use
+xl after calling this function.
+<hr>
+<a name="xlget">
+<h3>void *xlget(XLIST *xl, void *p)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Copy the data in the current node of the list pointed to by xl into a buffer
+pointed to by p.
+<h4>Returns</h4>
+<ul>
+<li>p.
+</ul>
+<hr>
+<a name="xllen">
+<h3>int xllen(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Compute the length of the list pointed to by xl. xllen() is implemented as a
+macro.
+<h4>Returns</h4>
+<ul>
+<li>the number of nodes in the list pointed to by xl.
+</ul>
+<hr>
+<a name="xlnew">
+<h3>XLIST *xlnew(void)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Create a new linked list. The new list can be freed by calling xlfree().
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there is a memory allocation failure.
+<li>a pointer to a new list, otherwise.
+</ul>
+<hr>
+<a name="xlnext">
+<h3>void *xlnext(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Advance the cursor of the list pointed to by xl by one node.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there are no more nodes in the list.
+<li>a pointer to the next node's data (as xldata()), otherwise.
+</ul>
+<hr>
+<a name="xlpop">
+<h3>void *xlpop(XLIST *xl, void *p)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Pseudonym for xlbehead().
+<hr>
+<a name="xlprepend">
+<h3>XLIST *xlprepend(XLIST *xl, void *p, int s)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Add a new node to the start of the list pointed to by xl. The new node will
+contained the data in a buffer of size s pointed to by p.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure.
+<li>xl, otherwise
+</ul>
+<hr>
+<a name="xlprev">
+<h3>void *xlprev(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Move the cursor of the list pointed to by xl back one node.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if we tried to move before the head of the list.
+<li>a pointer to the data in the previous node (as xldata()), otherwise.
+</ul>
+<hr>
+<a name="xlpush">
+<h3>XLIST *xlpush(XLIST *xl, void *p, int s)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Pseudonym for xlprepend().
+<hr>
+<a name="xlrewind">
+<h3>void *xlrewind(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Move the cursor of the list pointed to by xl to the head of the list.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if the list is empty
+<li>a pointer to the data in the head node (as xldata()), otherwise.
+</ul>
+<hr>
+<a name="xlsize">
+<h3>int xlsize(XLIST *xl)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Return the size of the data element in the current node of the list pointed
+to by xl.
+<h4>Returns</h4>
+<ul>
+<li>the size (in bytes) of the current data element of xl.
+</ul>
+</body>
+</html>

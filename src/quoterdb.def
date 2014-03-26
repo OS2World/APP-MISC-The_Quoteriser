@@ -1,0 +1,70 @@
+LIBRARY	QUOTERDB
+DESCRIPTION	'The Quoteriser - database library (C) 1997-1998 Nicholas Paul Sheppard'
+
+DATA		MULTIPLE NONSHARED
+
+EXPORTS
+;
+; quotes.h
+;
+	szQuoteExt		@1
+	QuoteNullifyDB		@2
+	QuoteOpenDB		@3
+	QuoteDBStat		@4
+	QuoteReorganiseDB	@5
+	QuoteCloseDB		@6
+	QuoteEmptyDB		@7
+	QuoteAddQuote		@8
+	QuoteGetQuote		@9
+	QuoteDeleteQuote	@10
+	QuoteFreeQuote		@11
+	QuoteExists		@12
+	QuoteFullSearchInit	@13
+	QuoteFullSearchNext	@14
+	QuoteFullSearchEnd	@15
+	QuoteTextSearchInit	@16
+	QuoteTextSearchNext	@17
+	QuoteTextSearchEnd	@18
+	QuoteKeySearchInit	@19
+	QuoteKeySearchNext	@20
+	QuoteKeySearchEnd	@21
+	QuoteAuthorSearchInit	@22
+	QuoteAuthorSearchNext	@23
+	QuoteAuthorSearchEnd	@24
+;
+; authors.h
+;
+	szAuthorExt		@25
+	AuthorNullifyDB		@26
+	AuthorOpenDB		@27
+	AuthorDBStat		@28
+	AuthorReorganiseDB	@29
+	AuthorCloseDB		@30
+	AuthorEmptyDB		@31
+	AuthorAddAuthor		@32
+	AuthorGetAuthor		@33
+	AuthorDeleteAuthor	@34
+	AuthorFreeAuthor	@35
+	AuthorExists		@36
+	AuthorFullSearchInit	@37
+	AuthorFullSearchNext	@38
+	AuthorFullSearchEnd	@39
+	AuthorNameSearchInit	@40
+	AuthorNameSearchNext	@41
+	AuthorNameSearchEnd	@42
+	AuthorDescSearchInit	@43
+	AuthorDescSearchNext	@44
+	AuthorDescSearchEnd	@45
+;
+; threads.h
+;
+	ThreadFindAllQuotes	@46
+	ThreadFindKeywords	@47
+	ThreadFindQuoteText	@48
+	ThreadFindAuthorsQuotes	@49
+	ThreadFindRandomQuote	@50
+	ThreadImportQuotes	@51
+	ThreadFindAllAuthors	@52
+	ThreadFindDescription	@53
+	ThreadFindAuthorName	@54
+	ThreadImportAuthors	@55

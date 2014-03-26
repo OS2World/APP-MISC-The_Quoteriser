@@ -1,0 +1,27 @@
+LIBRARY QUOTERLA
+DESCRIPTION	'The Quoteriser - parsing library (C) 1997-1998 Nicholas Paul Sheppard'
+
+DATA		MULTIPLE NONSHARED
+
+EXPORTS
+;
+; html.h
+;
+	HTMLGetNextChunk
+	HTMLMakePlain
+	HTMLParseTag
+	HTMLParseMacro
+	HTMLAttrTD
+	HTMLAttrFirst
+	HTMLAttrNext
+;
+; quoterc.h
+;
+	QCProcessCommands
+	QCErrorString
+
+;
+; typeset.h
+;
+	TypesetMetafile
+	TypesetASCII

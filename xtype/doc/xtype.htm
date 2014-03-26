@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>The xtype C library</title>
+</head>
+
+<body>
+<center>
+<h1>The xtype C Library, Version 1.00</h1>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#about">About the xtype library</a>
+<li><a href="#install">Installation and uninstallation</a>
+<li><a href="#doc">Library documentation</a>
+    <ol>
+    <li><a href="xarray.htm">The XARRAY type</a>
+    <li><a href="xlist.htm">The XLIST type</a>
+    <li><a href="xstr.htm">The XSTR type</a>
+    </ol>
+<li><a href="#waffle">Standard waffle at the end of freeware documentation</a>
+    <ol>
+    <li><a href="#credits">Credits</a>
+    <li><a href="#legals">Legals</a>
+    </ol>
+</ol>
+<hr>
+<a name="about">
+<h3>About the xtype library</h3>
+</a>
+<p>
+The xtype library contains a collection of routines for some dynamically-allocated
+data types I use in several of my projects; you are probably looking at this file
+because you downloaded this library as part of the source code for some software
+package of mine. I don't, at this stage, distribute it separately, though there
+is no reason you can't separate it from whatever package it came from and use it
+in your own projects (provided you obey the licence).
+<p>
+It provides a generic array type (XARRAY), a generic linked-list type (XLIST) and
+a string type (XSTR), designed to take care of all the realloc()-ing required for
+objects with dynamically-changing sizes.
+<hr>
+<a name="install">
+<h3>Installation and uninstallation</h3>
+</a>
+<p>
+The xtype library has been carefully written so that it should compile on any
+ANSI C compiler; I used various incarnations of GCC for testing. Older
+K&amp;R style compilers won't like the ANSI-style prototyping used, though I
+suppose there's no reason it won't compile if the prototypes were removed
+(better just get GCC).
+<p>
+To install the library, edit the top of the make file provided in the src directory
+so that it matches your system and preferences. Then run 'make install' and the
+library will install itself.
+<p>
+If the make file doesn't work for some reason (e.g. the command lines may be too
+long for DOS/Windows to handle), it's easy enough to compile it manually. First,
+compile each C source file into an object file. Then link all the object files
+into 'xtype.X', where X is the extension your system uses for library files. Copy
+the xtype.h file into your include directory and the library file into your
+library directory.
+<p>
+Should you not want the library on your computer any more, simply delete the
+xtype library and the xtype.h file.
+<hr>
+<a name="doc">
+<h3>Library documentation</h3>
+</a>
+<p>
+<ol>
+<li><a href="xarray.htm">The XARRAY generic array type</a>
+<li><a href="xlist.htm">The XLIST generic linked list type</a>
+<li><a href="xstr.htm">The XSTR string type</a>
+</ol>
+<hr>
+<a name="waffle">
+<h3>Standard waffle at the end of freeware documentation</h3>
+</a>
+<a name="credits">
+<h3>Credits</h3>
+</a>
+<p>
+The author of the xtype library is Nicholas Paul Sheppard. He lives in Sydney,
+Australia and does not tolerate advertising material posted to his e-mail
+address.
+<p>
+E-mail: nps@zeta.org.au
+<ul>
+<li>bug reports (but please check the WWW site first for known bugs)
+<li>suggestions and feature requests
+<li>general enquiries
+</ul>
+<p>
+WWW: http://www.zeta.org.au/~nps
+<ul>
+<li>latest information on the software I have written (note that xtype
+    does not have its own page)
+<li>a mirror of the OS/2 API site at EDM/2
+<li>Cynicism and Negativity, my edifice to the unhappier side of life
+</ul>
+<a name="legals">
+<h4>Legals</h4>
+</a>
+<p>
+The xtype library is distributed under <a href="licence.txt">my standard
+licence</a>; the file licence.txt describes this licence in detail.
+</body>
+</html>

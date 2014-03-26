@@ -1,0 +1,32 @@
+/*
+ * qdlg.rc
+ *
+ * Resources for quote dialogues.
+ *
+ *      Created: 16th July, 1997 (split from quoter.rc)
+ * Version 2.00: 24th November, 1997
+ *
+ * (C) 1997 Nicholas Paul Sheppard
+ *
+ * This file is distributed under the GNU General Public License. See the
+ * file copying.txt for details.
+ */
+
+
+/* edit quote details dialogue box */
+DLGTEMPLATE IDD_EDITQUOTE {
+	DIALOG "Edit Quote", 0, 50, 75, 215, 64, WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR {
+		CONTROL "Quote Code:", IDL_EDITQ_CODE, 2, 52, 60, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_EDITQ_CODE, 66, 52, 100, 8, WC_ENTRYFIELD, EF_STD
+		CONTROL "Source:", IDL_EDITQ_SOURCE, 2, 40, 60, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_EDITQ_SOURCE, 66, 40, 147, 8, WC_ENTRYFIELD, EF_STD
+		CONTROL "Author Code:", IDL_EDITQ_ACODE, 2, 28, 60, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_EDITQ_ACODE, 66, 28, 100, 8, WC_ENTRYFIELD, EF_STD
+		PUSHBUTTON "Browse", IDC_EDITQ_ABROWSE, 170, 26, 40, 12
+		CONTROL "Keywords:", IDL_EDITQ_KEYWORDS, 2, 16, 60, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_EDITQ_KEYWORDS, 66, 16, 147, 8, WC_ENTRYFIELD, EF_STD
+		DEFPUSHBUTTON "Text", IDC_EDITQ_TEXT, 45, 2, 40, 12
+		PUSHBUTTON "Okay", IDC_EDITQ_OKAY, 87, 2, 40, 12
+		PUSHBUTTON "Cancel", IDC_EDITQ_CANCEL, 129, 2, 40, 12
+	}
+}

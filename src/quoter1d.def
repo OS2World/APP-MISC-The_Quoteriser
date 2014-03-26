@@ -1,0 +1,49 @@
+LIBRARY	QUOTER1
+;
+; This is for the debugging version of this library (i.e. the one without the C
+; run-time library compiled into it).
+; 
+DESCRIPTION	'The Quoteriser - miscellaneous routine library (C) 1997-1998 Nicholas Paul Sheppard'
+
+DATA		MULTIPLE NONSHARED
+
+EXPORTS
+;
+; general.h
+;
+	cgetc			@1
+	dircat			@2
+	dirfname		@3
+	dirnoext		@4
+	dirsimp			@5
+	strabbrev		@6
+	strboxf			@7
+	strcmpci		@8
+	strencl			@9
+	stresctok		@10
+	strfchr			@11
+	strfromf		@12
+	strtncpy		@13
+	strpre			@14
+	strreplace		@15
+	strrmchr		@16
+;
+; pmutil.h
+;
+	ScrollMetafile		@17
+	ScrollMsgHandler	@18
+	ScrollSetGeometry	@19
+	SpawnPM			@20
+;
+; Routines from the xtype library
+;
+	fgetxstr		@21
+	xstrcat			@22
+	xstrcatc		@23
+	xstrcpy			@24
+	xstrcvt			@25
+	xstrdel			@26
+	xstrfree		@27
+	xstrncat		@28
+	xstrnew			@29
+	xstrtrunc		@30

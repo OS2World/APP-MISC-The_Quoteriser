@@ -1,0 +1,51 @@
+/*
+ * settings.rc
+ *
+ * Resources for settings dialogues.
+ *
+ *      Created: 16th July, 1997 (split from quoter.rc)
+ * Version 2.00: 18th December, 1997
+ *
+ * (C) 1997 Nicholas Paul Sheppard
+ *
+ * This file is distributed under the GNU General Public License. See the
+ * file copying.txt for details.
+ */
+
+
+/* Quoteriser settings dialogue box */
+DLGTEMPLATE IDD_SETTINGS {
+	DIALOG "Quoteriser Settings", 0, 50, 75, 220, 88, WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR {
+		CONTROL "Editor:", IDL_SET_EDITOR, 2, 76, 100, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_SET_EDITOR, 108, 76, 110, 8, WC_ENTRYFIELD, EF_STD
+		CONTROL "Editor Parameters:", IDL_SET_EDPARAMS, 2, 64, 100, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_SET_EDPARAMS, 108, 64, 110, 8, WC_ENTRYFIELD, EF_STD
+		CONTROL "Path to Data:", IDL_SET_DATAPATH, 2, 52, 100, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_SET_DATAPATH, 108, 52, 110, 8, WC_ENTRYFIELD, EF_STD
+		CONTROL "Path to Documentation:", IDL_SET_DOCPATH, 2, 40, 100, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_SET_DOCPATH, 108, 40, 110, 8, WC_ENTRYFIELD, EF_STD
+		CONTROL "Browser", IDL_SET_BROWSER, 2, 28, 100, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_SET_BROWSER, 108, 28, 110, 8, WC_ENTRYFIELD, EF_STD
+		CONTROL "Browser Parameters:", IDL_SET_BROWSERPARAMS, 2, 16, 100, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_SET_BROWSERPARAMS, 108, 16, 110, 8, WC_ENTRYFIELD, EF_STD
+		PUSHBUTTON "Font", IDC_SET_FONT, 27, 2, 40, 12
+		DEFPUSHBUTTON "Okay", IDC_SET_OKAY, 69, 2, 40, 12
+		PUSHBUTTON "Default", IDC_SET_DEFAULT, 111, 2, 40, 12
+		PUSHBUTTON "Cancel", IDC_SET_CANCEL, 153, 2, 40, 12
+	}
+}
+
+
+/* quote-of-the-day settings dialogue box */
+DLGTEMPLATE IDD_QOTD {
+	DIALOG "Quote of the Day", 0, 50, 75, 250, 44, WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR {
+		CONTROL "Quotes:", IDL_QOTD_QDB, 2, 31, 40, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_QOTD_QDB, 47, 32, 156, 8, WC_ENTRYFIELD, EF_STD
+		PUSHBUTTON "Browse", IDC_QOTD_QDB_BROWSE, 208, 30, 40, 12
+		CONTROL "Authors:", IDL_QOTD_ADB, 2, 17, 40, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_QOTD_ADB, 47, 18, 156, 8, WC_ENTRYFIELD, EF_STD
+		PUSHBUTTON "Browse", IDC_QOTD_ADB_BROWSE, 208, 16, 40, 12
+		DEFPUSHBUTTON "Okay", IDC_QOTD_OKAY, 84, 2, 40, 12
+		PUSHBUTTON "Cancel", IDC_QOTD_CANCEL, 126, 2, 40, 12
+	}
+}

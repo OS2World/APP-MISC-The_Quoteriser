@@ -1,0 +1,172 @@
+--------------------------------------------------------------------------------
+                               Quoteriser History
+--------------------------------------------------------------------------------
+
+********************************************************************************
+Finalised: Version 1.00 uploaded to Hobbes 11th April 1997
+********************************************************************************
+
+New Features:
+
+ - window positions are now saved between sessions.
+
+ - the settings now allow the user to specify a default path to their databases
+   and a path to the documentation.
+
+ - HTML tags are now permitted to contain white space.
+
+ - the "choose author" and "choose quotes" boxes now display the author's name
+   and first few words of the quote, respectively, as well as the code.
+
+ - when trying to open a database that does not previously exist, the program
+   now asks for confirmation from the user before creating it.
+
+ - there is now a "Browse" button in the add/edit-quote box to enable the user
+   to select an author from the list.
+
+ - the Quoteriser can now access read-only databases; previously, it tried to
+   open every database for writing, even for Quote-of-the-Day.
+
+ - all searches are now carried out using regular expression matching, using
+   the GNU Rx library.
+
+ - the Quoteriser now stores the paths to the last databases in use for easy
+   access from the "File" menu.
+
+ - the main window now has a vertical scroll bar for more convenient viewing of
+   long quotes and biographies.
+
+ - Quote-of-the-Day now has an "Again" option to choose another random quote
+   without having to re-start the program.
+
+ - new random signature generator (sig.exe).
+
+ - the Quoteriser now has an "Edit" menu that allows the user to copy quotes to
+   the clipboard as either text or metafiles.
+
+ - there is now an "Import" option on the quote and author menus to allow
+   importation of one database into the currently open one.
+
+ - the "choose quote" amd "choose author" boxes now display a progressive count
+   of the number of matches found.
+
+ - new simple install script (install.cmd) - just makes some icons.
+
+ - the names of the currently open databases are now displayed in the main
+   window title.
+
+ - there is now a font setting.
+
+ - lots of little cosmetic improvements.
+
+
+
+Bug Fixes:
+
+ - the Quote-of-the-Day settings box was not defaulting the entries with the
+   settings already present in the QUOTER.INI file.
+
+ - the user is no longer allowed to add an author or quote with an empty code;
+   such codes are impossible to delete, view or edit (and are just plain silly,
+   besides).
+
+ - the user must now enter text into a quote; other than null quote texts being
+   silly, they could also cause program crashes later on.
+
+ - there were several missing dependencies in the make file.
+
+ - the HTML parser now ignores all white space (it used to behave a little
+   strangely when parsing tab characters and carriage returns).
+
+ - spaces were being inserted after HTML macros.
+
+ - Quote-of-the-day never chose the first (GDBM-wise) quote in the database.
+
+
+Other:
+
+ - moved common code from the executables into the quoterdb.dll (database stuff)
+   and quoter1.dll (miscellaneous stuff) libraries.
+
+ - all the executables get their C library functions from quoter1.dll, reducing
+   the size of the executables while not requiring users to have emxrt.zip
+   installed on their systems.
+
+ - lots of internal code changes to cater for the increasing size of the
+   program and to improve robustness.
+
+ - the documentation is now in HTML format
+
+ - patches for the GNU Rx and GDBM makefiles are now packaged with the source
+   distribution. The GDBM patch fixes a mistake that causes the Quoteriser to
+   fail during compilation; the GNU Rx patch allows the GNU Rx library to be
+   used without gnurx.dll and the EMX run-time libraries.
+
+ - the make file has been re-written for easier maintenence
+
+********************************************************************************
+Finalised: Version 2.00 uploaded to Hobbes 21st December 1997
+********************************************************************************
+
+Bug Fixes:
+
+ - Quote-of-the-Day did not disable the vertical scroll bar before a quote had
+   been selected.
+
+ - the instructions for using sig.exe with NewsReader/2 only worked for LAN
+   connections.
+
+ - the author's e-mail and WWW addresses have changed.
+
+********************************************************************************
+Finalised: Version 2.01 uploaded to Hobbes 10th June 1998
+********************************************************************************
+
+New Features:
+
+ - the GENERIC macro has been added to allow compilation on non-OS/2 systems;
+   in theory, any standard C compiler should be able to to compile a non-OS/2
+   subset of Quoteriser programs (i.e. the ones that don't use the OS/2 GUI)
+   using this macro.
+
+ - added the -l flag to sig to cause it to print a warning if the output is
+   longer than a given number of lines.
+
+ - menu options to delete and edit the currently displayed author or quote have
+   been added.
+
+ - new -a and -s flags for sig to allow greater flexibility in choosing the
+   output format.
+
+ - sig now accepts multiple output files on the command line for more efficient
+   generation of multiple signatures.
+
+ - new -q <qdb> and -a <adb> options to load a quote or author database,
+   respectively, on the Quoteriser command line.
+
+ - searches for authors and quotes can now be aborted mid-search.
+
+
+Bug Fixes:
+
+ - replaced the stricmp() function with the Quoteriser's own function; stricmp()
+   is not standard C and not all compilers have this function.
+
+ - line length in input text files was previously limited to 1000 characters;
+   there is no longer any limit.
+
+ - authors without surnames had a comma printed before their names in the
+   "choose author" dialogue box.
+
+
+Other:
+
+ - the '/' character is no longer supported for denoting command-line flags;
+   this causes problems on Unix systems.
+
+ - new quoterla.dll containing parsing routines (HTML and database compiler).
+
+********************************************************************************
+Finalised: Version 2.10 uploaded to Hobbes 15th December 1998
+********************************************************************************
+

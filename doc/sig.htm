@@ -1,0 +1,430 @@
+<html>
+<head>
+<title>The Quoteriser: Random Signature Generator</title>
+</head>
+
+<body>
+<center>
+<h1>The Quoteriser, Version 2.10</h1>
+<h2>Random Signature Generator</h2>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#intro">Introduction</a>
+<li><a href="#install">Installation</a>
+<li><a href="#using">Using sig</a>
+    <ol>
+    <li><a href="#nr2">With NewsReader/2</a>
+    <li><a href="#pine">With Pine</a>
+    <li><a href="#ultimail">With Ultimail</a>
+    <li><a href="#others">With other applications</a>
+    <li><a href="#qotd">As a quote-of-the-day</a>
+    </ol>
+<li><a href="#templates">Template files</a>
+</ol>
+<hr>
+<a name="intro">
+<h3>Introduction</h3>
+</a>
+<p>
+The Quoteriser's random signature generator is a powerful utility for inserting
+random quotes into e-mail and Usenet signatures, or, indeed, any other (plain
+text) file the user cares to use it for.
+<p>
+(It can also be used as a text-based quote-of-the-day facility - though the
+PM-based <a href="qotd.htm">qotd.exe</a> program looks a lot better, and Unix
+'fortune' is probably easier to use for this purpose.)
+<p>
+The program is a command-line utility that works by taking a template file as
+input that describes the layout of the signature, inserting random quotes
+where specified and writing the output to a file.
+<hr>
+<a name="install">
+<h3>Installation</h3>
+</a>
+<p>
+After unzipping the <code>quot210x.zip</code> package (or compiling the source
+in the <code>quot210s.zip</code> package, for do-it-yourselfers), the
+<code>sig</code> application will be present in the 'bin' sub-directory.
+This is the executable the user will need to run to generate random signatures.
+<p>
+As the OS/2 version uses the Quoteriser DLLs (<code>quoter1.dll</code>,
+<code>quoterdb.dll</code> and <code>quoterla.dll</code>), either it must be run
+in this directory or the Quoteriser DLLs must be in a directory on the system
+LIBPATH statement in <code>CONFIG.SYS</code>.
+<p>
+To set the databases used for choosing random quotes, set the QUOTER_QDB
+and QUOTER_ADB environment variables. The former <i>must</i> be set as the
+name of the quote database - without extension - from which to choose random
+quotes. The QUOTER_ADB variable is optional; if not set, no authors will
+be associated with the quotes. Otherwise, it should be name of the author
+database - again, without extension - from which to draw author information.
+Under OS/2, these variables can be set with the following two lines, either in
+the system's CONFIG.SYS file, or in a batch file that runs the sig program:
+<pre>
+SET QUOTER_QDB=D:\APPS\QUOTERISER\DATA\CYNICISM
+SET QUOTER_ADB=D:\APPS\QUOTERISER\DATA\STANDARD
+</pre>
+<p>
+This will choose quotes from a database called 'cynicism' in the
+<code>D:\APPS\QUOTERISER\DATA</code> directory, and get author information from
+a database called 'standard' in the same directory. As usual, any changes made
+to <code>CONFIG.SYS</code> will require a re-boot to take effect. Other systems
+are similar.
+<p>
+Next, the reader will probably want to create at least one template file. See
+the <a href="#templates">template file section</a> below for details on how
+template files are formatted.
+<p>
+Finally, the reader may want to automate the running of sig. There are a
+variety of ways in which this could be done. E.g. the reader could put it into
+a batch file to run every time his or her e-mail program runs, or put it in
+<code>STARTUP.CMD</code> (OS/2) to choose a new signature at every boot, or use
+a scheduling application to choose a new signature every five minutes (say).
+There are some examples in the <a href="#using">Using sig</a> section
+below.
+<hr>
+<a name="using">
+<h3>Using sig</h3>
+</a>
+<p>
+The command-line format for sig is:
+<p>
+<code>sig [options] &lt;template&gt; [&lt;signature1&gt;] [&lt;signature2&gt;] ...</code>
+<p>
+where <code>&lt;template&gt;</code> is the name of the (input) template file,
+and the <code>&lt;signatureN&gt;</code>'s are the names of the (output)
+signature files. If there are no signature files specified, the result will be
+printed to standard output (i.e. on the screen, or to a pipe or re-director if
+present on the command line); otherwise, a signature will be randomly generated
+for each signature file using the specified template.
+<p>
+Valid options are:
+<dl>
+<dt>-?
+<dd>Display a quick help screen
+<dt>-a-
+<dd>Do not print the name of the author of the inserted quotes
+<dt>-as
+<dd>Print the author's name if is available, or the quote source otherwise
+<dt>-a+
+<dd>Print the name of the author (default)
+<dt>-l&lt;n&gt;
+<dd>Print a warning if the output is contains than &lt;n&gt; lines.
+<dt>-s-
+<dd>Do not print the source of the inserted quotes
+<dt>-sa
+<dd>Print the quote source if it is available, or the author's name otherwise
+<dt>-s+
+<dd>Print the quote source (default)
+<dt>--
+<dd>There are no more options on the command line (use this if the template file
+    starts with a hyphen).
+</dl>
+<p>
+Not all combinations of options make sense, though the program will come up with
+some result that makes sense to it, anyway.
+<p>
+See the <a href="#templates">template file section</a> below for details on how
+to create template files.
+<p>
+The following sections give some instructions for how to use sig with various
+OS/2 applications, and some examples of using sig in different ways. Unless
+otherwise noted, the template file is assumed to have the name
+<code>C:\ETC\TEMPLATE.TXT</code> - of course, it can be any valid file. The
+Quoteriser is assumed to be installed in <code>C:\APPS\QUOTER</code>, with
+quote database 'QUOTES' and author database 'AUTHORS' in the
+<code>C:\APPS\QUOTER\DATA</code> directory. The examples are not intended to
+be blindly copied, only to give an idea of what can be done. Similar ideas can
+be used for other systems.
+<p>
+<a name="nr2">
+<h4>Using sig with NewsReader/2</h4>
+</a>
+<p>
+NewsReader/2 stores its signature in a different place depending on how its
+connected to the news server. If it's connected via a LAN, it stores them in
+the <code>&lt;etc&gt;\sig</code> directory, where  <code>&lt;etc&gt;</code>
+is the value of the ETC environment variable. If the connection is via a PPP
+connection, they are in <code>&lt;etc&gt;\rnspool\&lt;isp&gt;\sig</code>,
+where <code>&lt;isp&gt;</code> is the name of the connection. There are
+three signature files:
+<dl>
+<dt><code>MAIL.SIG</code>
+<dd>Used on out-going e-mail if 'Use two .sig files' is set in the
+    signature configuration.
+<dt><code>NEWS.SIG</code>
+<dd>Used on both e-mail and Usenet articles if 'Use one .sig file' is
+    set in the signature configuration.
+<dt><code>POST.SIG</code>
+<dd>Used on Usenet articles if 'Use two .sig files' is set in the
+    signature configuration.
+</dl>
+<p>
+Therefore, use something like <code>sig c:\etc\template.txt *.sig</code>
+to generate random NewsReader/2 signatures, where <code>*</code> is one of
+<code>MAIL</code>, <code>NEWS</code> or <code>POST</code>, as required.
+<p>
+<b>Example:</b> Suppose the ETC variable is 'C:\ETC', we want to
+generate new random signatures every time NewsReader/2 is started, and
+we want a different quote for our mail and news signatures. The environment
+variables have not been set in <code>CONFIG.SYS</code>.
+<p>
+Create a batch file, <code>nr2.cmd</code>, say, in the <code>C:\TCPIP\BIN</code>
+directory (or wherever NewsReader/2 is), with the following:
+<pre>
+@ECHO OFF
+SET QUOTER_QDB=C:\APPS\QUOTER\DATA\QUOTES
+SET QUOTER_ADB=C:\APPS\QUOTER\DATA\AUTHORS
+CD \APPS\QUOTER\BIN
+SIG C:\ETC\TEMPLATE.TXT C:\ETC\SIG\MAIL.SIG C:\ETC\SIG\POST.SIG
+CD \TCPIP\BIN
+NR2 %1
+</pre>
+Then replace <code>NR2.EXE</code> in the NewsReader/2 desktop object properties
+with <code>NR2.CMD</code>.
+<p>
+<a name="pine">
+<h4>Using sig with Pine</h4>
+</a>
+<p>
+Pine allows the user to define the name of his or her signature file
+either by entering configuration from the main screen, or by editing
+the <code>signature-file</code> field in <code>pinerc</code>. If our
+our signature file is <code>C:\TCPIP\PINE\SIG.TXT</code>, for example,
+we can use <code>sig c:\etc\template.txt c:\tcpip\pine\sig.txt</code>
+to generate a random signature.
+<p>
+<b>Example:</b> Suppose we want to generate a new signature every five
+minutes, using our favourite scheduling program. The environment
+variables have been set in <code>CONFIG.SYS</code>. This author can't tell
+the reader how to use his or her favourite scheduling program, of course, and
+assumes the reader knows how to get it to run a program every five minutes.
+Create a batch file, <code>c:\tcpip\bin\newsig.cmd</code>, say, containing
+the following:
+<pre>
+CD \APPS\QUOTER\BIN
+SIG C:\ETC\TEMPLATE.TXT C:\TCPIP\PINE\SIG.TXT
+</pre>
+<p>
+Then put <code>newsig.cmd</code> into the scheduling program.
+<p>
+<a name="ultimail">
+<h4>Using sig with Ultimail</h4>
+<p>
+Err... don't know. Ultimail appears to store its signature in the
+<code>&lt;etc&gt;\TCPOS2.INI</code> file, where <code>&lt;etc&gt;</code> is
+the contents of the ETC environment variable. The CR/LF pairs seem to have
+been replaced with ASCII characters 1 (smiley faces). Don't be fooled by
+the <code>\TCPIP\UMAIL\UMAIL.PRO</code> file - it looks like a nice, text-based
+configuration file, but Ultimail appears to create this every time it starts it
+from what is in <code>TCPOS2.INI</code> (no, the author doesn't understand,
+either).
+<p>
+As OS/2 .INI files are binary files, no amount of processing through sed, pipes
+and what-have-you, will be able to sort it out; some programming skill is
+necessary. As the author doesn't use Ultimail, he isn't inclined to spend a lot
+of time trying to figure it out. Read the .INI file section in the <a href="#others">
+other applications section</a> and have a go.
+<p>
+<a name="others">
+<h4>Using sig with other applications</h4>
+</a>
+<p>
+For other applications, the reader is on his or her own. The simplest case is
+for applications like Pine and NewsReader/2, where the signature is just a text
+file somewhere; quite a few applications use this method. In this case, once
+the signature file has been identified, it should be easy to set up sig to
+write its output to this file.
+<p>
+Some applications might store the signature in a text-based file with some
+other things (like a Windows .INI); in this case, some clever use of pipes,
+re-direction and possibly REXX, Perl or awk should suffice.
+<p>
+Some applications (like Ultimail) store the signature in an .INI file. This
+requires some programming skill. Use IniMaint or something to examine the
+.INI file and determine the application name and key for the signature.
+Then write a program to put the output from sig into the .INI file. In
+C, something along the lines of the following fragment:
+<pre>
+hini = PrfOpenProfile(hab, "PROFILE.INI");            // or whatever the .INI is called
+pszString = strfromf(stdin);                          // strfromf() is from quoter1.dll
+PrfWriteProfileString(hini, "App", "Key", pszString); // or whatever IniMaint found
+free(pszString);
+</pre>
+<p>
+... then pipe the output from <code>sig c:\etc\template.txt</code>
+into this program.
+<p>
+Similarly, in REXX:
+<pre>
+/* don't forget the comment at the top */
+call RxFuncAdd 'SysIni', 'RexxUtil', 'SysIni'
+sig = ''
+do while lines()
+  sig = sig || linein() || x2c('0d 0a')
+end
+SysIni('PROFILE.INI', 'App', 'Key', sig)
+</pre>
+<p>
+... and pipe the output from <code>sig c:\etc\template.txt</code> into
+it, as before.
+<p>
+Finally, some applications might keep the signature in a binary file
+of their own format (though the author has never seen such a thing, and
+there's no need with the Prf...() API). This requires real tenacity - the
+reader will have to decode the binary file and write a program to insert
+the signature.
+<p>
+If the reader has developed a solution for any applications not listed here
+- even if it's just the name of the file to overwrite - or knows the solution
+to Ultimail, he or she is more than welcome to submit the solution to the
+author at <a href="mailto:nps@zeta.org.au">nps@zeta.org.au</a>. For the
+reader's effort, he or she will receive a mention in the credits and the usual
+warm, fuzzy feeling that he or she gets from helping the world out.
+<p>
+<a name="qotd">
+<h4>Using sig as a quote-of-the-day</h4>
+</a>
+<p>
+In case the reader didn't read the introduction, the author will repeat here
+that
+<ol>
+<li>The Quoteriser's PM-based <a href="qotd.htm">Quote-of-the-Day</a> looks a lot
+   better than the output from <code>sig</code>.
+<li>The 'fortune' program from Unix systems is easier to use and probably looks
+    better.
+</ol>
+Still, maybe the reader managed to compile sig for a system which doesn't have
+a 'fortune' port, doesn't like the quotes in 'fortune', doesn't want to download
+1.3 Mb worth of 'fortune' or something.
+<p>
+Create a template file that just prints a quote across the whole screen, e.g.
+<pre>
+&lt;tr&gt;
+&lt;quote colspan=79&gt;
+</pre>
+<p>
+Then running <code>sig c:\etc\template.txt</code> will show a quote of the day.
+If <code>sig</code> is in the path, and, for OS/2, <code>quoter1.dll</code>,
+<code>quoterdb.dll</code> and <code>quoterla.dll</code> are in the LIBPATH, it
+won't even be necessary to change to the Quoteriser directory before running.
+<hr>
+<a name="templates">
+<h3>Template Files</h3>
+</a>
+<p>
+The format for template files is based on HTML tables, taking some liberty with
+the meaning of tag attributes. The control elements are:
+<table>
+<tr><td>&lt;tr&gt;
+    <td>Start a new row
+<tr><td>&lt;td colspan=<i>n</i>&gt;
+    <td>Put the following block of text into a cell <i>n</i> characters wide.
+<tr><td>&lt;quote colspan=<i>n</i>&gt;
+    <td>Insert a random quote, typeset into a cell <i>n</i> characters wide.
+</table>
+<p>
+No other HTML tags are supported; text inside &lt;td&gt is treated as if
+it were in a &lt;pre&gt; tag. Only &lt;br&gt; and &lt;p&gt; tags are interpreted
+in the quote; others are ignored.
+<p>
+Each row will have enough lines in it to accomodate the longest of the cells
+in it, and be of a width equal to the sum of the colspan attributes of the
+&lt;td&gt; and &lt;quote&gt; items in that row. There is no limit to the
+number of rows, or the width of each row (though one supposes that the reader
+will eventually run out of disk space and/or memory). There <i>is</i> a limit of
+eighty cells per row, however.
+<p>
+There can be as many random quotes in the signature as the user wishes; each
+quote will be chosen separately (but there is no safeguard against choosing
+the same one twice, which looks a bit silly).
+<p>
+E.g. at the time this document was written, the author's template file was
+<pre>
+&lt;tr&gt;
+&lt;td colspan=40&gt;-- Location: Sydney, Australia        |
+ / Email: nps@zeta.org.au             |
+/  WWW: http://www.zeta.org.au/~nps   |
+-- ----&gt; Cynicism & Negativity        |
+&lt;quote colspan=39&gt;
+</pre>
+<p>
+which will produce an output something like
+<pre>
+-- Location: Sydney, Australia        | HAMLET: To be or not to be: that is
+ / E-mail: nps@zeta.org.au            | the question
+/  WWW: http://www.zeta.org.au/~nps   |
+-- ----&gt; Cynicism & Negativity        | - William Shakespeare, Hamlet
+</pre>
+<p>
+Maybe the reader prefers to the quote to be appended to his or her details. In
+this case, he or she might try something like:
+<pre>
+&lt;tr&gt;
+&lt;td colspan=79&gt;James Hacker (jhacker@yoyodyne.com) - author of Gnomovision
+Make a pass at your compiler today! - http://www.yoyodyne.com/gnomovision
+
+&lt;tr&gt;
+&lt;quote colspan=79&gt;
+</pre>
+which will give an output something like
+<pre>
+James Hacker (jhacker@yoyodyne.com) - author of Gnomovision
+Make a pass at your compiler today! - http://www.yoyodyne.com/gnomovision
+
+Ask not what your country can do for you, but what you can do for your
+country.
+
+- John F. Kennedy
+</pre>
+<p>
+We could put our quote inside a box:
+<pre>
+&lt;tr&gt;
+&lt;td colspan=79&gt;+-----------------------------------------------------------------------------+
+&lt;tr&gt;
+&lt;td colspan=2&gt;|
+|
+|
+|
+&lt;quote colspan=75&gt;
+&lt;td colspan=2&gt;|
+|
+|
+|
+&lt;tr&gt;
+&lt;td colspan=79&gt;+-----------------------------------------------------------------------------+
+</pre>
+<p>
+(Making sure that the two side cells are high enough to make the box join up for any quote in
+our database). The output will be something like:
+<pre>
++-----------------------------------------------------------------------------+
+| Well may we sing 'God Save the Queen', because nothing will save the        |
+| Governor-General.                                                           |
+|                                                                             |
+| - Gough Whitlam                                                             |
++-----------------------------------------------------------------------------+
+</pre>
+<p>
+We can increase our wit/wisdom-per-mail rate by having two (or more) random
+quotes:
+<pre>
+&lt;tr&gt;
+&lt;td colspan=11&gt;He said:
+&lt;quote colspan=68&gt;
+&lt;tr&gt;
+&lt;td colspan=11&gt;So I said:
+&lt;quote colspan=68&gt;
+</pre>
+Which gives us (using -a- -s- to keep it brief):
+<pre>
+He said:   I have nothing to declare but my genius.
+So I said: And therefore never send to know for whom the bell tolls; It tolls
+           for thee.
+</pre>
+
+</body>
+</html>

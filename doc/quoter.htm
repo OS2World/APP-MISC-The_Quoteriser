@@ -1,0 +1,396 @@
+<html>
+<head>
+<title>The Quoteriser</title>
+</head>
+
+<body>
+<center>
+<h1>The Quoteriser, Version 2.10</h1>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#basic">Basic Quoteriser notions</a>
+    <ol>
+    <li><a href="#qdb">Quote databases</a>
+    <li><a href="#adb">Author databases</a>
+    </ol>
+<li><a href="#using">Using the Quoteriser</a>
+    <ol>
+    <li><a href="#databases">Using databases</a>
+    <li><a href="#quotes">Managing quotes</a>
+    <li><a href="#authors">Managing authors</a>
+    <li><a href="#clipboard">The clipboard</a>
+    </ol>
+<li><a href="#settings">Quoteriser settings</a>
+    <ol>
+    <li><a href="#set_main">Main settings</a>
+    <li><a href="#set_qotd">Quote-of-the-day settings</a>
+    </ol>
+<li><a href="#reference">A Quoteriser reference</a>
+    <ol>
+    <li><a href="#html">Quoteriser HTML</a>
+    <li><a href="#regexp">Regular expressions</a>
+    </ol>
+<li><a href="#other">Related utilities</a>
+</ol>
+<hr>
+<a name="basic">
+<h3>Basic Quoteriser notions</h3>
+</a>
+<p>
+Every quote in a Quoteriser database is associated with a unique alpha-numeric
+code that can be up to 19 characters long. Every author in an author database
+similarly has a unique code up to 19 characters long. These codes are what the
+program uses to uniquely identify the information stored in a database.
+<p>
+Databases are have filename extensions of <code>.?db</code>, where <code>?</code>
+is one of <code>q</code>, <code>t</code>, <code>a</code> or <code>d</code>,
+depending on what part of a database this file represents. When specifying
+names of databases to the Quoteriser, the user must omit this extension; the
+Quoteriser will fill in the necessary extensions in the process of opening
+particular files.
+<p>
+The Quoteriser can be made to open databases at start-up by giving it the
+<code>-q &lt;quote database&gt;</code> and <code>-a &lt;author
+database&gt;</code> options on the command line.
+<a name="qdb">
+<h4>Quote databases</h4>
+</a>
+<p>
+A quote database is composed of two files, <code>&lt;database&gt;.qdb</code> and
+<code>&lt;database&gt;.tdb</code>, where <code>&lt;database&gt;</code> can be any
+valid file name stem. Both files are GNU DBM files.
+<p>
+The <code>.qdb</code> file stores the following information about the quote:
+<ul>
+<li>a code identifying the quote's author [up to 19 characters]
+<li>a string containing information about the quote's source [up to 99
+    characters]
+<li>up to five keywords describing the subject matter of the quote [each
+    keyword can be up to 19 characters long]
+</ul>
+<p>
+The author code is the one assigned to the quote's author in the author
+database being used. Of course, there is nothing stopping anyone from having
+the same author in two different databases with a different code, and this
+may cause trouble when using the system. It is not recommended that the user
+keeps more than one author database.
+<p>
+The <code>.tdb</code> file stores the text of the quote itself, which can be typeset
+using <a href="#html">simple HTML commands</a> (see below).
+<a name="adb">
+<h4>Author databases</h4>
+</a>
+<p>
+An author database is also composed of two files, <code>&lt;database&gt;.adb</code> and
+<code>&lt;database&gt;.ddb</code>, where <code>&lt;database&gt;</code>, again, can be
+any valid file name stem. Both these files are also GDBM files.
+<p>
+The <code>.adb</code> file stores the following information about the author:
+<ul>
+<li>the author's given name [up to 49 characters]
+<li>the author's surname [up to 49 characters]
+<li>the author's year of birth [up to 9 characters]
+<li>the author's year of death [up to 9 characters]
+</ul>
+The <code>.ddb</code> file contains a free-form biographical entry for the author, which can
+also be typeset with <a href="#html">simple HTML commands</a> described below.
+<hr>
+<a name="using">
+<h3>Using the Quoteriser</h3>
+</a>
+<a name="databases">
+<h4>Using Databases</h4>
+</a>
+<p>
+Quote and author databases are open and closed like any other file using the
+<i>File</i> menu. A quote database must be open to be able to use to use quote
+management functions, and an author database must be open to be able to
+use author management functions. Only one database of each type may be open at
+once.
+<p>
+When trying to open a database, the standard OS/2 file dialogue will appear,
+which shows <code>*.qdb</code> files (for quote databases) or <code>*.adb</code>
+files (for author databases). A database that already exists can be opened in
+the usual fashion, or a new database can be created by typing in the name of
+the new database (the user will be asked to confirm creation). The
+<code>*.tdb</code> and <code>*.ddb</code> files are assumed from the
+<code>*.qdb</code> or <code>*.adb</code> file that is specified.
+<p>
+The last quote and author databases in use may also be opened quickly by
+choosing the last option on the <i>File</i> menu, i.e. the option showing
+the names of these databases. This option will not appear if there have been
+no databases in use before.
+<p>
+In addition to the open and close functions on the <i>File</i> menu, there are
+two more options to re-organise the quote database and the author database.
+These functions will de-fragment the open database. When data is deleted from a
+database, it leaves a gap. The Quoteriser will try to fill these gaps when new
+information is stored in the database; however, if the database has undergone
+a lot of deletions with few additions, packing the database in this fashion
+may save space.
+<p>
+It may happen that the Quoteriser is not able to gain write access to the
+database, e.g. if the database has been marked as read-only, or it has been
+already opened by another application. In this case, functions requiring
+write access (such as adding, editing and re-organising) will be disabled.
+<a name="quotes">
+<h4>Managing quotes</h4>
+</a>
+Once a quote database has been opened, the quotes within can be manipulated
+using the <i>Quote</i> menu. The user can add a new quote, edit or delete
+old quotes, view/search the quotes, and import quotes from another database.
+<p>
+To add a new quote, choose the <i>Add</i> option from the <i>Quote</i> menu.
+A dialogue box into which to enter quote information will appear. The quote
+code <i>must</i> be specified; all other entries are optional.
+<p>
+In the <i>Keywords</i> entry field, the keywords should be separated by
+spaces.
+<p>
+The text of the quote can be edited by pressing the <i>Text</i> button. This
+will start the text editor specified in the <a href="#settings">settings</a>,
+where the quote text can be typeset using <a href="#html">simple HTML</a>.
+Make sure the file is saved before pressing the <i>Okay</i> button.
+<p>
+Pre-existing quotes can be edited by choosing <i>Edit</i> from the <i>Quote</i>
+menu. The user can edit the current quote (if there is one), or choose from the
+list of quotes in the database. A dialogue box like the one used for adding
+quotes will appear, which can be used to edit the quote as necessary using the
+same procedure.
+<p>
+Quotes can be deleted by choosing <i>Delete</i> from the <i>Quote</i> menu.
+The user can delete the current quote (if there is one), or choose from the
+list of quotes in the database. Warning: there is no undelete function, so be
+careful.
+<p>
+Quotes in the database can be viewed using the <i>View</i> sub-menu of the
+<i>Quote</i>. Each option of the <i>View</i> sub-menu causes a different
+list of quotes to be displayed for choosing:
+<dl>
+<dt><i>List all</i>
+<dd>Lists all quotes in the database.
+<dt><i>By keyword</i>
+<dd>Lists all the quotes associated with a particular keyword; the user will
+    be asked to type this in. <a href="#regexp">Regular expressions</a> may be
+    used.
+<dt><i>By text</i>
+<dd>Lists all the quotes containing a <a href="#regexp">regular expression</a>
+    given by the user.
+<dt><i>By author</i>
+<dd>Lists all the quotes from a given author, which can be selected from the
+    list of authors in the currently open author database. This option is not
+    available if there is no author database open.
+</dl>
+<p>
+Another database can be imported into the currently-open database by choosing
+the <i>Import</i> option from the <i>Quote</i> menu. The user will be presented
+with a dialogue box asking for the name of the database to import, and giving
+several options for what to do about codes which exist in both the open database
+and the database being imported:
+<dl>
+<dt><i>Replace all</i>
+<dd>Replace quotes in the open database with ones from the database being imported.
+<dt><i>Replace none</i>
+<dd>Do not import any quotes whose code already exists in the open database
+<dt><i>Ask</i>
+<dd>Prompt the user for action whenever a duplicate code is found.
+</dl>
+The <i>Duplicate codes</i> setting does not affect codes being imported that do
+not clash with codes already existing in the open database.
+<a name="authors">
+<h4>Managing authors</h4>
+</a>
+With an author database open, authors can be manipulated in exactly the same
+way quotes are manipulated, using the <i>Author</i> menu. Adding, editing,
+deleting and importing are the same. The <i>View</i> sub-menu has the
+following options:
+<dl>
+<dt><i>List all</i>
+<dd>Lists all the authors in the database
+<dt><i>By name</i>
+<dd>Lists all the authors with a name typed in by the user, which may be their
+    given name or surname, and may be a <a href="#regexp>regular expression</a>.
+<dt><i>By description</i>
+<dd>Lists all the authors containing a <a href="#regexp>regular expression</a>,
+    given by the user, in their descriptions.
+</dl>
+<a name="clipboard">
+<h4>The clipboard</h4>
+</a>
+<p>
+The Quoteriser can interact with other applications via the clipboard. When a
+quote or author is displayed on the screen, it can be copied to the clipboard
+using the <i>Edit</i> menu. Once copied to the clipboard, it can be pasted into
+another application - see the other application's documentation for how to
+paste into it.
+<p>
+<i>Copy as text</i> will copy the display to the clipboard as plain text,
+suitable for pasting into text editors and word processors. This will destroy
+some of the formatting of the quote; obviously italics and boldface cannot be
+rendered in plain text. Line-wrapping will also be removed (to allow the
+pasting application to wrap as it sees fit).
+<p>
+<i>Copy as metafile</i> will copy the display to the clipboard as a metafile,
+suitable for pasting into graphics applications. This method will preserve all
+of the formatting.
+<hr>
+<a name="settings">
+<h3>Quoteriser settings</h3>
+</a>
+<a name="set_main">
+<h4>Main settings</h4>
+</a>
+<p>
+The main Quoteriser settings are accessed via the <i>Settings</i> option in the
+<i>File</i> menu:
+<dl>
+<dt><i>Editor</i>
+<dd>The name of the text (or HTML) editor to use for editing quote texts and
+    author descriptions. The default is the OS/2 system editor, E.EXE.
+<dt><i>Editor parameters</i>
+<dd>Parameters to pass to the text editor; the % symbol represents the name
+    of the file to edit. The default is '%'.
+<dt><i>Path to data</i>
+<dd>The default path in which to look for databases. There is no default.
+<dt><i>Path to documentation</i>
+<dd>The path to the Quoteriser documentation. The default is the 'doc'
+    directory in the parent directory of the working directory.
+<dt><i>Browser</i>
+<dd>The name of the HTML browser to use (for viewing the documentation).
+    The default is WebExplorer, EXPLORE.EXE
+<dt><i>Browser parameters</i>
+<dd>Parameters to pass to the HTML browser; the % symbol represents the
+    name of the document to view. The default is '%'.
+</dl>
+<a name="set_qotd">
+<h4>Quote-of-the-day settings</h4>
+</a>
+<p>
+The <i>Quote-of-the-day</i> option brings up a dialogue box allowing the user
+to specify settings for the quote-of-the-day program; namely, the name of the
+quote database to select random quotes from, and the name of an author database
+to provide author information.
+<hr>
+<a name="reference">
+<h3>A Quoteriser reference</h3>
+</a>
+<a name="html">
+<h4>Quoteriser HTML</h4>
+</a>
+<p>
+The HTML understood by the Quoteriser is a tiny subset of the full HTML
+standard; only elements thought to be useful in the typesetting of quotes
+have been implemented.
+<p>
+The Quoteriser understands the following HTML tags:
+<p>
+<table border=0>
+<tr><td>&lt;b&gt; ... &lt;/b&gt;  <td>- the enclosed text is in boldface
+<tr><td>&lt;br&gt;                <td>- force a line break here
+<tr><td>&lt;i&gt; ... &lt;/i&gt;  <td>- the enclosed text is in italics
+<tr><td>&lt;p&gt;                 <td>- paragraph break
+</table>
+<p>
+Other tags will be ignored.
+<p>
+The Quoteriser implements all the ISO Latin-1 macros; unrecognised macros
+will be printed verbatim. Note that because the '&amp;', '&lt;' and '&gt;'
+characters have special meaning in HTML, the &amp;amp; (&amp;), &amp;lt;
+(&lt;) and &amp;gt; (&gt;) macros <i>must</i> be used to represent such
+characters. The list of HTML macros may be obtained from the W3 Consortium,
+<a href="http://www.w3.org">http://www.w3.org</a>.
+<p>
+Because the Quoteriser blindly sends the ISO Latin-1 codes to the screen,
+some characters may display strangely if the current codepage/font does not
+correspond to ISO Latin-1. There is no support at all for other character
+sets, the author regrets to say (though one supposes fiddling with the
+codepages and fonts might produce results for some alphabets).
+<a name="regexp">
+<h4>Regular expressions</h4>
+</a>
+<p>
+(Note: if the reader has re-compiled the Quoteriser with a different
+regular expression library to GNU Rx, this section may not accurately
+describe the re-compiled Quoteriser - in this case, the author assumes
+the reader either knows what he or she is doing, or can find out).
+<p>
+The Quoteriser uses the GNU Rx library to implement regular expression
+matching. All regular expression matching is case insensitive and uses
+extended regular expression syntax. All matches are sub-string matches.
+The following is an incomplete description that is hopefully enough to
+get the reader started.
+<p>
+<table border=1>
+<tr><td nowrap>[ ]
+    <td>Matches any one of the characters inside the square brackets.
+        Ranges may be used, e.g. [a-z] to match any alphabetic
+        character.
+<tr><td nowrap>[^ ]
+    <td>Matches any character <i>not</i> in the square brackets. Ranges
+        may be used, e.g. [^a-z] to match any non-alphabetic character.
+<tr><td nowrap>\
+    <td>Take the following character literally, e.g. \\ match a backslash,
+        \[ match a left square bracket.
+<tr><td nowrap>.
+    <td>Matches any single character
+<tr><td nowrap>?
+    <td>Match the preceding item zero or one times.
+<tr><td nowrap>*
+    <td>Match the preceding item zero or more times.
+<tr><td nowrap>+
+    <td>Match the preceding item one or more times.
+<tr><td nowrap>{<i>n</i>}
+    <td>Match preceding item <i>n</i> times.
+<tr><td nowrap>{<i>n</i>,}
+    <td>Match preceding item <i>n</i> or more times.
+<tr><td nowrap>{,<i>m</i>}
+    <td>Match preceding item at most <i>m</i> times.
+<tr><td nowrap>{<i>n</i>,<i>m</i>}
+    <td>Match preceding item at least <i>n</i> times and at most <i>m</i> times.
+<tr><td nowrap>|
+    <td>Match either the expression on the left or on the right.
+<tr><td nowrap>( )
+    <td>Used to alter order of precedence (similar to arithmetic).
+</table>
+<p>
+Examples:
+<p>
+<table border=1>
+<tr><td nowrap>[KC]arl
+    <td>E.g. to find all authors named &quot;Carl&quot;, regardless of whether
+        they spell their names with a C or a K
+<tr><td nowrap>happ(y|iness)
+    <td>E.g. to search for keyword &quot;happy&quot; or &quot;happiness&quot;
+<tr><td nowrap>honou?r
+    <td>E.g. to search for both the US and UK spellings of &quot;honour&quot;.
+<tr><td nowrap>[aeiou]{3}
+    <td>E.g. to find all quotes with three or more vowels in succession.
+<tr><td nowrap>[ ',.&quot;;:]word[ ',.&quot;;:]
+    <td>E.g. to match a whole word (&quot;word&quot;, in this case) only
+</table>
+<p>
+Unfortunately, the author is unable to direct the keen reader to a good,
+comprehensive regular expression reference; the best he can suggest is to
+get the manual page for the grep utility.
+<hr>
+<a name="other">
+<h4>Related utilities</h4>
+</a>
+The Quoteriser, in addition to being able to manipulate quotes in databases,
+is shipped with a couple of utilities for amusing oneself and others with the
+wit and wisdom of a good quote database:
+<dl>
+<dt><a href="intro.htm">Introduction to the Quoteriser</a>
+<dd>Installation, credits, copyright, etc.
+<dt><a href="quoterc.htm">Database compiler (quoterc.exe)</a>
+<dd>A utility for compiling databases from text files, or de-compiling
+    databases into text files.
+<dt><a href="qotd.htm">Quote-of-the-day (qotd.exe)</a>
+<dd>A simple utility for choosing and displaying a random quote
+<dt><a href="sig.htm">Signature generator (sig.exe)</a>
+<dd>A utility for inserting random quotes into one's e-mail and Usenet
+    signature (and anything else, for that matter).
+</body>
+</html>

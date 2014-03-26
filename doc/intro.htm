@@ -1,0 +1,269 @@
+<html>
+<head>
+<title>The Quoteriser: Introduction</title>
+</head>
+
+<body>
+<center>
+<h1>The Quoteriser, Version 2.10</h1>
+<h2>Introduction</h2>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#about">About the Quoteriser</a>
+<li><a href="#where">Where to find the Quoteriser</a>
+<li><a href="#install">Installing and uninstalling the Quoteriser</a>
+<li><a href="#source">Do-it-yourself executables</a>
+<li><a href="#future">The future</a>
+<li><a href="#waffle">Standard waffle at the end of freeware documentation</a>
+    <ol>
+    <li><a href="#credits">Credits</a>
+    <li><a href="#legals">Legals</a>
+    </ol>
+</ol>
+<hr>
+<a name="about">
+<h3>About the Quoteriser</h3>
+</a>
+<p>
+The reader has probably gathered by now that the Quoteriser is a program for
+managing quotes. If not, the author can only presume that the reader has
+downloaded this file for no particular purpose and hopes that the reader is not
+volume-charged on his or her Internet access.
+<p>
+The Quoteriser was written in the author's spare time to facilitate the
+maintenance of the author's collection of quotes. The author hopes that others
+might similarly find use for this program in the maintenance of their own
+collections or to use as a browser for quote libraries.
+<p>
+In addition to being able to store, edit, search and view quotes, the Quoteriser
+can similarly manage biographical details for authors. Indeed, the user can even
+do away with the quotes altogether and use the application purely as a
+biographical database manager.
+<p>
+Also provided is a quote-of-the-day facility, and a powerful random signature
+generator (i.e. a quote-of-the-day inserted into the reader's e-mail signature).
+<p>
+Typesetting of quotes and biographies is achieved using simple HTML encoding.
+<p>
+The Quoteriser is traditionally an OS/2 Presentation Manager application, and
+you will need to be using OS/2 to use the full gamut of Quotersier functions.
+As of Version 2.10, however, some Quoteriser functions are available for any
+platform that has an ANSI C compiler and the GNU GDBM library. There is no
+official binary distribution for systems other than OS/2, however, so non-OS/2
+users will have to compile it themselves (or find someone else who already
+has).
+<p>
+Version 2.00 of the Quoteriser is a large improvement over version 1.00, with
+a much better interface, several new features and a couple of minor bug-fixes.
+Version 2.10 contains a few interface enhancements and a new (somewhat
+experimental) database compiler. If the reader is interested in the details,
+the author has compiled an <a href="history.txt">history of changes</a>.
+<p>
+More detailed information about how to use the Quoteriser and the facilities it
+has been endowed with is available in the accompanying documentation:
+<ul>
+<li><a href="quoter.htm">quoter.htm</a> - the Quoteriser's main program
+<li><a href="quoterc.htm">quoterc.htm</a> - the database compiler
+<li><a href="qotd.htm">qotd.htm</a> -the quote-of-the-day facility
+<li><a href="sig.htm">sig.htm</a> - the random signature generator
+</ul>
+<hr>
+<a name="where">
+<h3>Where to find the Quoteriser</h3>
+</a>
+<p>
+Of course, since you're reading this document, one presumes that you know where
+it came from. In case you've forgotten, or obtained the Quoteriser through
+strange and obscure channels, I will upload new versions of the Quoteriser to
+Hobbes, which the administrators, in their great wisdom, place in the os2/apps/misc
+directory.
+<ul>
+<li>USA (official site): <a href="ftp://ftp-os2.nmsu.edu/pub">ftp://ftp-os2.nmsu.edu/pub</a>
+<li>Australia: <a href="ftp://mirror.aarnet.edu.au/hobbes">ftp://mirror.aarnet.edu.au/hobbes</a>
+<li>UK: <a href="ftp://micros.hensa.ac.uk/mirrors/hobbes">ftp://micros.hensa.ac.uk/mirrors/hobbes</a>
+</ul>
+<p>
+There are other mirrors - see <code>mirrors.txt</code> on ftp-os2.nmsu.edu; as usual, choose
+the one nearest (network-wise) to you.
+<p>
+The central point for the dissemination of information about the Quoteriser is on
+the author's WWW site, <a href="http://www.zeta.org.au/~nps/software/quoteriser/index.html">
+http://www.zeta.org.au/~nps/software/quoteriser/index.html</a>.
+Go here for the latest Quoteriser information and URLs of publically-available
+databases.
+<hr>
+<a name="install">
+<h3>Installing and uninstalling the Quoteriser</h3>
+</a>
+<p>
+This assumes that the reader is installing the Quoteriser from the binary
+distribution (<code>quot210x.zip</code>); if the reader is using the source
+distribution, please read the <a href="#source">Do-it-yourself executables</a>
+section below.
+<p>
+The quot210x.zip file, when expanded (with -d if using PKZIP), automatically
+creates the directory structure assumed by the Quoteriser - the reader has
+probably already done this. The files are:
+<table>
+<tr><td><code>install.cmd      </code><td>- cheesy script for installing icons
+<tr><td><code>readme.txt       </code><td>- tells the reader to read this file
+<tr><td><code>bin\quoter.exe   </code><td>- the Quoteriser's main program
+<tr><td><code>bin\quoterc.exe  </code><td>- the database compiler
+<tr><td><code>bin\qotd.exe     </code><td>- the quote-of-the-day program
+<tr><td><code>bin\quoterdb.dll </code><td>- supporting library
+<tr><td><code>bin\quoterla.dll </code><td>- supporting library
+<tr><td><code>bin\quoter1.dll  </code><td>- supporting library
+<tr><td><code>bin\sig.exe      </code><td>- the random signature generator
+<tr><td><code>doc\copying.txt  </code><td>- a copy of the GNU General Public License
+<tr><td><code>doc\intro.htm    </code><td>- an introduction to the Quoteriser (this file)
+<tr><td><code>doc\quoter.htm   </code><td>- documentation for the main program
+<tr><td><code>doc\quoterc.htm  </code><td>- documentation for the database compiler
+<tr><td><code>doc\qotd.htm     </code><td>- documentation for the quote-of-the-day program
+<tr><td><code>doc\sig.htm      </code><td>- documentation for the random signature generator
+<tr><td><code>doc\history.txt  </code><td>- history of changes made to the Quoteriser
+<tr><td><code>etc\quoter.ico   </code><td>- the Quoteriser icon
+</table>
+<p>
+The reader will probably want to create icons on the desktop to start up
+<code>quoter.exe</code> (the interface to the database manager) and
+<code>qotd.exe</code> (the quote-of-the-day program). This can be done
+automatically by running the <code>install.cmd</code> script from the
+Quoteriser's directory. Put a shadow of the Quote-of-the-day object in
+the StartUp folder for a random quote to be displayed at every boot.
+<p>
+If the user decides to move the Quoteriser, the other file that will need to be
+moved is <code>bin\QUOTER.INI</code>. This contains the settings information for
+the Quoteriser. It is created by the Quoteriser main program when it needs it.
+<p>
+The random signature generator uses two environment variables, which the reader
+might want to set in his or her <code>CONFIG.SYS</code> if the signature
+generator is to be used regularly. These are:
+<table>
+<tr><td>QUOTER_QDB <td>- path to the quote database to get random quotes from, no extension (must exist)
+<tr><td>QUOTER_ADB <td>- path to the author database to use, no extension (optional)
+</table>
+<p>
+Should the reader decide that the Quoteriser is absorbing too much valuable disk
+space, or it is banned in the reader's country (?), or something of the sort,
+uninstalling the Quoteriser is as easy as installing it. Simply delete
+everything in the directory the Quoteriser was installed into, and all the
+directories below it. Delete any icons or folders that were created, and the reader's
+system will never know that it was ever there: &quot;rm -rf *&quot; - the ultimate
+uninstaller.
+<hr>
+<a name="source">
+<h3>Do-it-yourself executables</h3>
+</a>
+<p>
+The complete C source code for this version of the Quoteriser is available to
+the compiling public. If the reader wishes to compile his or her own version of
+the Quoteriser, he or she requires three files (these are the names of the OS/2
+distributions; other systems may have variants, such as *.tar.gz for Unix):
+<ul>
+<li><code>quot210s.zip</code> - the Quoteriser's source code
+<li><code>gnugdbm.zip</code> - the GNU database manager
+<li><code>gnurx.zip</code> - the GNU Rx (regular expression) library; though any other
+   regular expression library that happens to be lying around can probably
+   be made to work. This is not required for non-OS/2 compilation.
+</ul>
+<p>
+The Quoteriser source code should be available from the same source as the
+executables (<code>quot210x.zip</code>). The GNU database files are available from
+ftp.leo.org and several other places (all in Germany, for some reason),
+and the GNU Rx library is available from Hobbes, amongst other places.
+<p>
+It is a condition of the license for this product that the source code is either
+distributed with the executables or available upon request. The author will,
+therefore, be prepared to offer any assistance necessary in obtaining the above
+two files if he is contacted by any rightful licensee of the product.
+<p>
+Further documentation on compilation of the source code is distributed in the
+<code>quot210s.zip</code> file.
+<hr>
+<a name="future">
+<h3>The future</h3>
+</a>
+No, the Quoteriser 2.10 isn't the perfect application. The following is a list
+of some of the things the author has on his to-do list:
+<ul>
+<li>colour selection
+<li>boolean search functions
+<li>on-line, context-sensitive help
+<li>add the &lt;pre&gt; HTML tag
+<li>HTML interpretation of all text by by the signature generator
+<li>integration of compiler functionality into the GUI (but quoterc will remain)
+<li>a more sophisticated compiler (but I am not going to re-write Perl)
+<li>(possibly) an Internet quote-of-the-day server
+<li>... and probably a lot more that the author thinks of between now
+    and version 3.00. Current projections are that Version 3.00 <i>will</i> be
+    the perfect application :-)
+</ul>
+<p>
+The author will accept suggestions and feature requests to his e-mail address at
+<a href="mailto:nps@zeta.org.au">nps@zeta.org.au</a>. Whether or not he acts on
+them, and on what time scale, depends on how worthwhile he thinks the feature to
+be and how much time he has on his hands. If the reader wishes to fiddle with the
+source code him or herself, he or she is quite welcome to download
+<code>quot210s.zip</code> and do so. The author will consider changes submitted
+to him for inclusion in the official Quoteriser distribution, though he can't
+guarantee it.
+<hr>
+<a name="waffle">
+<h3>Standard waffle at the end of freeware documentation</h3>
+</a>
+<a name="credits">
+<h4>Credits</h4>
+</a>
+<p>
+The author of the Quoteriser is Nicholas Paul Sheppard. He lives in Sydney,
+Australia and does not tolerate advertising material posted to his e-mail
+address.
+<p>
+E-mail: nps@zeta.org.au
+<ul>
+<li>bug reports (but please check the WWW site first for already-known bugs)
+<li>suggestions and feature requests
+<li>help with locating source code, GDBM and GNU Rx
+<li>enquiries
+</ul>
+<p>
+WWW: http://www.zeta.org.au/~nps
+<ul>
+<li>latest information on the Quoteriser, including URLs for publically-
+    available quote and author databases
+<li>information on other software I have written
+<li>a mirror of the OS/2 API site at EDM/2
+<li>Cynicism and Negativity, containing the bulk of my personal quote
+    collection, among other things
+</ul>
+<p>
+The Quoteriser's quote and biography database management is handled by the
+GNU database manager library. This was written by Philip A. Nelson and
+ported to OS/2 by Kai Uwe Rommel. Without this piece of software, the
+Quoteriser would have been a lot longer in coming.
+<p>
+The Quoteriser's regular expression matching is provided by the GNU Rx
+library, written by Tom Lord and ported to OS/2 by Kai Uwe Rommel. This
+library allowed easy addition of a powerful Quoteriser feature.
+<p>
+The Quoteriser was developed using the EMX/GCC compiler, written by Eberhard
+Mattes. This author cannot offer enough thanks to Eberhard and everyone else
+who's contributed to GCC; the Quoteriser would probably not exist but for
+them.
+<p>
+The Quoteriser icon was designed and drawn by John Bambrick, who also came up
+with the name &quot;Quoteriser&quot;.
+<a name="legals">
+<h4>Legals</h4>
+</a>
+<p>
+The Quoteriser is distributed under the <a href="copying.txt">GNU General Public
+License</a>; the file copying.txt describes this license. If you did not get this
+file with your copy of the Quoteriser, (a) you have a faulty copy of the
+distribution, and (b) you can get a copy by e-mailing the author with a polite
+request for its supply or by contacting the Free Software Foundation
+(try http://www.gnu.org).
+</body>
+</html>

@@ -1,0 +1,215 @@
+<html>
+<head>
+<title>The xtype C library</title>
+</head>
+
+<body>
+<center>
+<h1>The xtype C Library, Version 1.00</h1>
+<h2>The XARRAY Type</h2>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#xaappend">xaappend</a>
+<li><a href="#xacast">xacast</a>
+<li><a href="#xachar">xachar</a>
+<li><a href="#xacvt">xacvt</a>
+<li><a href="#xafree">xafree</a>
+<li><a href="#xaget">xaget</a>
+<li><a href="#xainsert">xainsert</a>
+<li><a href="#xaint">xaint</a>
+<li><a href="#xalen">xalen</a>
+<li><a href="#xalong">xalong</a>
+<li><a href="#xanew">xanew</a>
+<li><a href="#xapchar">xapchar</a>
+<li><a href="#xapint">xapint</a>
+<li><a href="#xaplong">xaplong</a>
+<li><a href="#xaput">xaput</a>
+<li><a href="#xashrink">xashrink</a>
+<li><a href="#xaxarray">xaxarray</a>
+<li><a href="#xaxlist">xaxlist</a>
+<li><a href="#xaxstr">xaxstr</a>
+</ol>
+<hr>
+<a name="xaappend">
+<h3>XARRAY *xaappend(XARRAY *xa, void *p)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Append the element pointed to by p to the end of the array pointed to by xa.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure. The array will remain
+    unchanged in this case.
+<li>xa, otherwise.
+</ul>
+<hr>
+<a name="xacast">
+<h3>void *xacast(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of voids (whatever that means).
+<hr>
+<a name="xachar">
+<h3>char *xachar(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of characters.
+<hr>
+<a name="xacvt">
+<h3>void *xacvt(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Convert the array pointed to by xa into a normal array. This array should be
+de-allocated with free(). Do not use xa after calling this function.
+<h4>Returns</h4>
+<ul>
+<li>a pointer to a array normal array containg the data of xa.
+</ul>
+<hr>
+<a name="xafree">
+<h3>void xafree(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+De-allocate the array pointed to by xa. If the elements of xa are pointers to
+dynamically-allocated strucutres, these must be freed separately. Do not use xa
+after calling this function.
+<hr>
+<a name="xaget">
+<h3>void *xaget(XARRAY *xa, int n, void *p)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Copy the element in position n of the array pointed to by xa into the buffer
+pointed to p.
+<h4>Returns</h4>
+<ul>
+<li>p.
+</ul>
+<hr>
+<a name="xainsert">
+<h3>XARRAY *xainsert(XARRAY *xa, int n, void *p)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Insert an element at position n in the array pointed to by xa. The new element
+will contain the data in the buffer pointed to by p.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there is a memory allocation failure. The array will remain
+    unchanged in this case.
+<li>xa, otherwise.
+</ul>
+<hr>
+<a name="xaint">
+<h3>int *xaint(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of integers.
+<hr>
+<a name="xalen">
+<h3>int xalen(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Compute the length of the array pointed by xa.
+<h4>Returns</h4>
+<ul>
+<li>the number of elements in xa.
+</ul>
+<hr>
+<a name="xalong">
+<h3>long *xalong(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of long integers.
+<hr>
+<a name="xanew">
+<h3>XARRAY *xanew(int n, int b, int e)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Create a new array with elements of size e. The new array will initially set
+aside space for n elements (but it will not actually contain any), and this
+space grow by b elements whenever required. The array can be freed using
+xafree() or by xacvt() then free().
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure.
+<li>a pointer to the new array, otherwise.
+</ul>
+<hr>
+<a name="xapchar">
+<h3>char **xapchar(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of pointers to characters.
+<hr>
+<a name="xapint">
+<h3>int **xapint(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of pointers to integers.
+<hr>
+<a name="xaplong">
+<h3>long **xaplong(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of pointers to long integers.
+<hr>
+<a name="xaput">
+<h3>XARRAY *xaput(XARRAY *xa, int n, void *p)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Copy the buffer pointed to by p into the element at position n in the array
+pointed to by xa.
+<h4>Returns</h4>
+<ul>
+<li>xa.
+</ul>
+<hr>
+<a name="xashrink">
+<h3>XARRAY *xashrink(XARRAY *xa, int n1, int n2)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Shrink the array pointed to by xa by removing the elements between positions n1
+and n2, inclusive.
+<h4>Returns</h4>
+<ul>
+<li>xa.
+</ul>
+<hr>
+<a name="xaxarray">
+<h3>XARRAY **xaxarray(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of pointers to XARRAYs.
+<hr>
+<a name="xaxlist">
+<h3>XLIST **xaxlist(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of pointers to XLISTs.
+<hr>
+<a name="xaxstr">
+<h3>XSTR **xaxstr(XARRAY *xa)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Typecast the array pointed to by xa as an array of pointers to XSTRs.
+</body>
+</html>

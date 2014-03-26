@@ -1,0 +1,197 @@
+/*
+ * quoter.rc
+ *
+ * Main resource file for the Quoteriser
+ *
+ *      Created: 18th January, 1997
+ * Version 1.00: 9th April, 1997
+ * Version 2.00: 21st December, 1997
+ * Version 2.01: 8th January, 1997
+ * Version 2.10: 18th October, 1998
+ *
+ * (C) 1997-1998 Nicholas Paul Sheppard
+ *
+ * This file is distributed under the GNU General Public License. See the
+ * file copying for details.
+ */
+
+#define INCL_WIN
+#include <os2.h>
+
+#include "quoter.h"
+
+/* application icon */
+ICON IDI_ICON etc\quoter.ico
+
+
+/* main menu */
+MENU IDM_MAIN {
+	SUBMENU "~File", IDM_FILE {
+		MENUITEM "Open ~Quotes...", IDM_OPEN_QUOTES
+		MENUITEM "Open ~Authors..", IDM_OPEN_AUTHORS
+		MENUITEM "Re-organise Quotes", IDM_REORG_QUOTES
+		MENUITEM "Re-organise Authors", IDM_REORG_AUTHORS
+		MENUITEM "Close Qu~otes", IDM_CLOSE_QUOTES
+		MENUITEM "Close Au~thors", IDM_CLOSE_AUTHORS
+		MENUITEM SEPARATOR
+		MENUITEM "~Settings", IDM_SETTINGS
+		MENUITEM SEPARATOR
+		MENUITEM "E~xit", IDM_EXIT
+	}
+	SUBMENU "~Edit", IDM_EDIT {
+		MENUITEM "Copy as ~Text", IDM_COPY_TEXT
+		MENUITEM "Copy as ~Metafile", IDM_COPY_METAFILE
+	}
+	SUBMENU "~Authors", IDM_AUTHORS {
+		MENUITEM "~Add Author...", IDM_ADD_AUTHOR
+		SUBMENU "~View Author", IDM_GET_AUTHOR {
+			MENUITEM "List ~All...", IDM_GET_AUTHOR_ALL
+			MENUITEM "By ~Description...", IDM_GET_AUTHOR_DESC
+			MENUITEM "By ~Name...", IDM_GET_AUTHOR_NAME
+		}
+		SUBMENU "~Delete Author", IDM_DEL_AUTHOR {
+			MENUITEM "~Current", IDM_DEL_AUTHOR_CURRENT
+			MENUITEM "From ~List", IDM_DEL_AUTHOR_ALL
+		}
+		SUBMENU "~Edit Author", IDM_EDIT_AUTHOR {
+			MENUITEM "~Current", IDM_EDIT_AUTHOR_CURRENT
+			MENUITEM "From ~List", IDM_EDIT_AUTHOR_ALL
+		}
+		MENUITEM "~Import...", IDM_IMPORT_AUTHORS
+	}
+	SUBMENU "~Quotes", IDM_QUOTES {
+		MENUITEM "~Add Quote...", IDM_ADD_QUOTE
+		SUBMENU "~View Quote", IDM_GET_QUOTE {
+			MENUITEM "List ~All...", IDM_GET_QUOTE_ALL
+			MENUITEM "By ~Keyword...", IDM_GET_QUOTE_KEY
+			MENUITEM "By ~Text...", IDM_GET_QUOTE_TEXT
+			MENUITEM "By ~Author...", IDM_GET_QUOTE_NAME
+		}
+		SUBMENU "~Delete Quote", IDM_DEL_QUOTE {
+			MENUITEM "~Current", IDM_DEL_QUOTE_CURRENT
+			MENUITEM "From ~List...", IDM_DEL_QUOTE_ALL
+		}
+		SUBMENU "~Edit Quote", IDM_EDIT_QUOTE {
+			MENUITEM "~Current", IDM_EDIT_QUOTE_CURRENT
+			MENUITEM "From ~List...", IDM_EDIT_QUOTE_ALL
+		}
+	}
+	MENUITEM "Quote-of-the-~Day", IDM_QOTD
+	SUBMENU "~Help", IDM_HELP {
+		MENUITEM "General ~Help", IDM_GENHELP
+		MENUITEM "~License", IDM_LICENSE
+		MENUITEM "~About", IDM_ABOUT
+	}
+}
+
+
+STRINGTABLE LOADONCALL DISCARDABLE {
+/* general strings */
+	IDS_APPNAME		"The Quoteriser"
+	IDS_SEARCHING		"Searching..."
+	IDS_SAMPLE		"To be or not to be"
+
+/* error messages */
+	IDS_OPENFAILED		"I could not open %s."
+	IDS_SPAWNFAILED		"I could not spawn a program."
+	IDS_NOMEM		"Memory allocation failure."
+	IDS_THREADFAILED	"I could not start a thread."
+	IDS_NOCODE		"You must enter a code."
+	IDS_NOTEXT		"You must associate some text with this quote."
+	IDS_BADRX		"Invalid regular expression."
+
+/* window titles */
+	IDS_TITLE_QS_KEY	"Enter keyword"
+	IDS_TITLE_QS_TEXT	"Enter regular expression"
+	IDS_TITLE_AS_DESC	"Enter regular expression"
+	IDS_TITLE_AS_NAME	"Enter name"
+	IDS_TITLE_ACODE		"Select author"
+	IDS_TITLE_QCODE		"Select quote"
+	IDS_TITLE_FONT		"Select font"
+	IDS_TITLE_OPEN		"Open database"
+	IDS_TITLE_BROWSE	"Select database"
+	IDS_TITLE_ADDA		"Add author"
+	IDS_TITLE_EDITA		"Edit author"
+	IDS_TITLE_ADDQ		"Add quote"
+	IDS_TITLE_EDITQ		"Edit quote"
+
+/* questions for the user */
+	IDS_MAKENEWDB		"The database %s does not exist. Create it?"
+	IDS_REPLACECODE		"'%s' already exists. Do you want to replace it?"
+	IDS_DEFAULT		"Are you sure you want to restore the default settings?"
+
+/* information messages */
+	IDS_NOQUOTES		"No quotes found."
+	IDS_NOAUTHORS		"No authors found."
+
+/* message box titles */
+	IDS_ERROR		"Error"
+	IDS_CONFIRM		"Confirmation"
+	IDS_RETRY		"Try Again"
+}
+
+
+/* introduction dialogue box */
+DLGTEMPLATE IDD_INTRO {
+	DIALOG "", 0, 150, 125, 204, 56, WS_VISIBLE, 0 {
+		CONTROL "The Quoteriser", IDL_INTRO_NAME, 2, 46, 200, 8, WC_STATIC, TEXT_CENTRE
+		CONTROL "(C) 1997-1998 Nicholas Paul Sheppard", IDL_INTRO_COPYRIGHT, 2, 36, 200, 8, WC_STATIC, TEXT_CENTRE
+		CONTROL "This free software is issued without warranty.", IDL_INTRO_DECLARATION, 2, 26, 200, 8, WC_STATIC, TEXT_CENTRE
+		CONTROL "See License under the Help menu for details.", IDL_INTRO_LICENSE, 2, 16, 200, 8, WC_STATIC, TEXT_CENTRE
+		DEFPUSHBUTTON "Okay", IDC_INTRO_OKAY, 80, 2, 40, 12
+	}
+}
+
+
+/* about the Quoteriser dialogue box */
+DLGTEMPLATE IDD_ABOUT {
+	DIALOG "About the Quoteriser", 0, 150, 150, 175, 46, WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR {
+		CONTROL "The Quoteriser", IDL_ABOUT_NAME, 2, 36, 171, 8, WC_STATIC, TEXT_CENTRE
+		CONTROL "Version 2.10", IDL_ABOUT_VERSION, 2, 26, 171, 8, WC_STATIC, TEXT_CENTRE
+		CONTROL "(C) 1997-1998 Nicholas Paul Sheppard", IDL_ABOUT_COPYRIGHT, 2, 16, 171, 8, WC_STATIC, TEXT_CENTRE
+		DEFPUSHBUTTON "Okay", IDC_ABOUT_OKAY, 67, 2, 40, 12
+	}
+}
+
+
+/* choose code dialogue box */
+DLGTEMPLATE IDD_CHOOSECODE {
+	DIALOG "Choose Code", 0, 50, 75, 300, 110, WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR {
+		LISTBOX IDC_CODE_CODE, 2, 17, 296, 91, 0
+		DEFPUSHBUTTON "Okay", IDC_CODE_OKAY, 2, 2, 40, 12
+		PUSHBUTTON "Cancel", IDC_CODE_CANCEL, 44, 2, 40, 12
+		CONTROL "Matches:", IDL_CODE_COUNT, 86, 3, 40, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "0", IDC_CODE_COUNT, 128, 3, 170, 10, WC_STATIC, TEXT_LEFT
+	}
+}
+
+
+/* get text from user dialogue box */
+DLGTEMPLATE IDD_GETTEXT {
+	DIALOG "Enter Text", 0, 50, 75, 200, 28, WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR {
+		CONTROL "Text:", IDL_GETTEXT_TEXT, 2, 16, 25, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_GETTEXT_TEXT, 31, 17, 167, 8, WC_ENTRYFIELD, EF_STD
+		DEFPUSHBUTTON "Okay", IDC_GETTEXT_OKAY, 59, 2, 40, 12
+		PUSHBUTTON "Cancel", IDC_GETTEXT_CANCEL, 101, 2, 40, 12
+	}
+}
+
+
+/* import database dialogue box */
+DLGTEMPLATE IDD_IMPORT {
+	DIALOG "Import database", 0, 50, 75, 230, 55, WS_VISIBLE, FCF_SYSMENU | FCF_TITLEBAR {
+		CONTROL "Source:", IDL_IMPORT_SOURCE, 2, 42, 30, 10, WC_STATIC, TEXT_RIGHT
+		CONTROL "", IDC_IMPORT_SOURCE, 35, 42, 150, 8, WC_ENTRYFIELD, EF_STD
+		PUSHBUTTON "Browse", IDC_IMPORT_BROWSE, 187, 40, 40, 12
+		CONTROL "Duplicate Codes", IDC_IMPORT_REPLACE, 2, 16, 226, 22, WC_STATIC, GB_STD
+		CONTROL "Replace all", IDC_IMPORT_REPLACE_ALL, 10, 20, 70, 10, WC_BUTTON, RADIO_STD
+		CONTROL "Replace none", IDC_IMPORT_REPLACE_NO, 98, 20, 80, 10, WC_BUTTON, RADIO_STD
+		CONTROL "Ask", IDC_IMPORT_REPLACE_ASK, 195, 20, 25, 10, WC_BUTTON, RADIO_STD
+		DEFPUSHBUTTON "Okay", IDC_IMPORT_OKAY, 73, 2, 40, 12
+		PUSHBUTTON "Cancel", IDC_IMPORT_CANCEL, 117, 2, 40, 12
+	}
+}
+
+rcinclude src\settings.rc	/* settings dialogue resources */
+rcinclude src\adlg.rc		/* author dialogue resources */
+rcinclude src\qdlg.rc		/* quote dialogue resources */

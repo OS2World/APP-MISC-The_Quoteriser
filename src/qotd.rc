@@ -1,0 +1,43 @@
+/*
+ * qotd.rc
+ *
+ * Resource file for the Quoteriser's Quote-of-the-Day utility.
+ *
+ *      Created: 31st March, 1997
+ * Version 1.00: 9th April, 1997
+ * Version 2.00: 21st December, 1997
+ *
+ * (C) 1997 Nicholas Paul Sheppard
+ *
+ * This file is distributed under the GNU General Public License. See the
+ * file copying.txt for details.
+ */
+
+#define INCL_WIN
+#include <os2.h>
+
+#include "qotd.h"
+
+
+ICON IDI_ICON etc\quoter.ico
+
+MENU IDM_MAIN {
+	MENUITEM "E~xit", IDM_EXIT
+	SUBMENU "~Edit", IDM_EDIT {
+		MENUITEM "Copy as ~Text", IDM_COPY_TEXT
+		MENUITEM "Copy as ~Metafile", IDM_COPY_METAFILE
+	}
+	MENUITEM "~Again", IDM_AGAIN
+}
+
+STRINGTABLE LOADONCALL DISCARDABLE {
+	IDS_APPNAME		"The Quoteriser: Quote of the Day"
+	IDS_OPENFAILED		"I could not open %s."
+	IDS_THREADFAILED	"Thread failure."
+	IDS_INIFAILED		"I could not open QUOTER.INI"
+	IDS_EMPTYDB		"The database is empty."
+	IDS_NODB		"The database %s does not exist."
+	IDS_SEARCHING		"Choosing quote..."
+	IDS_ERROR		"Error"
+	IDS_UNSET		"Quote-of-the-day has not been configured in the Quoteriser."
+}

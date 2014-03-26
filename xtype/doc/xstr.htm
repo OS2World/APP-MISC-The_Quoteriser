@@ -1,0 +1,213 @@
+<html>
+<head>
+<title>The xtype C library</title>
+</head>
+
+<body>
+<center>
+<h1>The xtype C Library, Version 1.00</h1>
+<h2>The XSTR Type</h2>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#fgetxstr">fgetxstr</a>
+<li><a href="#xstrcast">xstrcast</a>
+<li><a href="#xstrcat">xstrcat</a>
+<li><a href="#xstrcatc">xstrcatc</a>
+<li><a href="#xstrch">xstrch</a>
+<li><a href="#xstrcpy">xstrcpy</a>
+<li><a href="#xstrcvt">xstrcvt</a>
+<li><a href="#xstrdel">xstrdel</a>
+<li><a href="#xstrfree">xstrfree</a>
+<li><a href="#xstrlen">xstrlen</a>
+<li><a href="#xstrncat">xstrncat</a>
+<li><a href="#xstrncpy">xstrncpy</a>
+<li><a href="#xstrnew">xstrnew</a>
+<li><a href="#xstrtrunc">xstrtrunc</a>
+</ol>
+<hr>
+<a name="fgetxstr">
+<h3>XSTR *fgetxstr(XSTR *xstr, FILE *f)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Read one line of a stream f, terminated by a line feed ('\n') character, into a
+string pointed to by xstr, as fgets().
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there is an error. If feof(f) and ferror(f) are both false, then
+    there was a memory allocation failure.
+<li>xstr, otherwise.
+</ul>
+<hr>
+<a name="xstrcast">
+<h3>char *xstrcast(XSTR *xstr)</h3>
+<a>
+<h4>Function</h4>
+<p>
+Typecast the string pointed to by xstr as a normal null-terminated character
+string. xstrcast() is implemented as a macro.
+<h4>Returns</h4>
+<ul>
+<li>A pointer to the null-terminated string represented by xstr.
+</ul>
+<hr>
+<a name="xstrcat">
+<h3>XSTR *xstrcat(XSTR *xstr, char *psz)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Concatenate the string pointed to by psz to the end of the string pointed to by
+xstr, as strcat().
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure. The string pointed to by
+    xstr will not be changed if this is the case.
+<li>xstr, otherwise
+</ul>
+<hr>
+<a name="xstrcatc">
+<h3>XSTR *xstrcatc(XSTR *xstr, char ch)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Concatenate the character ch to the end of the string pointed to by xstr.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure. The string pointed to by
+    xstr will not be changed if this is the case.
+<li>xstr, otherwise
+</ul>
+<hr>
+<a name="xstrch">
+<h3>char xstrch(XSTR *xstr, int n)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Pick out the nth character of the string pointed to by xstr; equivalent to
+xstrcast(xstr)[n]. xstrch() is implemented as a macro.
+<h4>Returns</h4>
+<ul>
+<li>The character in position n in the string pointed to by xstr.
+</ul>
+<hr>
+<a name="xstrcpy">
+<h3>XSTR *xstrcpy(XSTR *xstr, char *psz)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Copy the string pointed to by psz into the string pointed to by xstr, as
+strcpy().
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure. The string pointed to by
+    xstr will not be changed if this is the case.
+<li>xstr, otherwise
+</ul>
+<hr>
+<a name="xstrcvt">
+<h3>char *xstrcvt(XSTR *xstr)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Convert the string pointed to by xstr into a normal null-terminated character
+string. All the memory associated with xstr will be de-allocated, so do not
+use xstr after calling this function. The pointer returned should be freed
+with free() when it is no longer required.
+<h4>Returns</h4>
+<ul>
+<li>A pointer to a null-terminated character string containing the string
+    pointed to by xstr.
+</ul>
+<hr>
+<a name="xstrdel">
+<h3>XSTR *xstrdel(XSTR *xstr, int n1, int n2)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Shorten the string pointed to by xstr by removing characters n1 to n2,
+inclusive.
+<h4>Returns</h4>
+<ul>
+<li>xstr.
+</ul>
+<hr>
+<a name="xstrfree">
+<h3>void xstrfree(XSTR *xstr)</h3>
+</a>
+<h4>Function</h4>
+<p>
+De-allocate the memory used by the string pointed to by xstr. Do not use xstr
+after calling this function.
+<hr>
+<a name="xstrlen">
+<h3>int xstrlen(XSTR *xstr)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Compute the length of the string pointed to by xstr, equivalent to
+strlen(xstrcast(xstr)). xstrlen() is implemented as a macro.
+<h4>Returns</h4>
+<ul>
+<li>The number of characters in the string pointed to by xstr.
+</ul>
+<hr>
+<a name="xstrncat">
+<h3>XSTR *xstrncat(XSTR *xstr, char *psz, int n)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Concatenate at most n characters from the string pointed to by psz to the string
+pointed to by xstr. Unlike strncat(), this function will ensure that the
+resulting string is null-terminated.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure. The string pointed to by
+    xstr will not be changed if this is the case.
+<li>xstr, otherwise
+</ul>
+<hr>
+<a name="xstrncpy">
+<h3>XSTR *xstrncpy(XSTR *xstr, char *psz, int n)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Copy at most n characters from the string pointed to by psz into the string
+pointed to by xstr. Unlike strncpy(), this function will ensure that the
+resulting string is null-terminated.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure. The string pointed to by
+    xstr will not be changed if this is the case.
+<li>xstr, otherwise
+</ul>
+<hr>
+<a name="xstrnew">
+<h3>XSTR *xstrnew(int n, int b)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Create a new string with initial space for n characters. The space allocated for
+the string will grow by b characters whenever the string exceeds the length
+currently set aside for it.
+<h4>Returns</h4>
+<ul>
+<li>NULL, if there was a memory allocation failure.
+<li>a pointer to the newly-created string, otherwise, which can be de-allocated
+    by using xstrfree(), or xstrcvt() and free().
+</ul>
+<hr>
+<a name="xstrtrunc">
+<h3>XSTR *xstrtrunc(XSTR *xstr, int n)</h3>
+</a>
+<h4>Function</h4>
+<p>
+Truncate the string pointed to by xstr to be no longer than n characters. If
+the length of xstr is less than n, this function does nothing.
+<h4>Returns</h4>
+<ul>
+<li>xstr.
+</ul>
+</body>
+</html>

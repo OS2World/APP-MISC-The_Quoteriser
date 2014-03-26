@@ -1,0 +1,400 @@
+<html>
+<head>
+<title>The Quoteriser: Source Code</title>
+</head>
+
+<body>
+<center>
+<h1>The Quoteriser, Version 2.10</h1>
+<h2>Source Code</h2>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#intro">Introduction</a>
+<li><a href="#need">What you need</a>
+<li><a href="#manifest">Manifest</a>
+<li><a href="#notes">Compile notes</a>
+    <ol>
+    <li><a href="#other_c">Compilers other than EMX</a>
+    <li><a href="#other_m">Make utilities other than GNU</a>
+    <li><a href="#changes">What might need to be changed</a>
+    <li><a href="#gdbm">GNU database manager</a>
+    <li><a href="#gnurx">GNU Rx</a>
+    </ol>
+<li><a href="#regexp">Using another regular expression library</a>
+<li><a href="#minimal">A minimal Quoteriser</a>
+<lI><a href="#generic">Systems other than OS/2</a>
+<li><a href="#help">Help</a>
+</ol>
+<hr>
+<a name="intro">
+<h3>Introduction</h3>
+</a>
+<p>
+The author of the Quoteriser supports open source development, so here is the
+full C source code for the Quoteriser. Customise it, use it to build your
+own applications, use it as an example to refer to, compile for your favourite
+operating system, whatever you like, just obey the <a href="copying.txt">GNU
+General Public Licence</a> (or my licence for the xtype library).
+<p>
+This file only documents how to compile the Quoteriser. If the reader wishes to
+change the source code, he or she will find all the documentation that exists
+in the source code itself, which the author hopes is reasonably useful.
+<hr>
+<a name="need">
+<h3>What you need</h3>
+</a>
+<p>
+Unfortunately, to compile the Quoteriser the reader will need a few
+packages on top of the Quoteriser source package itself. This is because
+the Quoteriser uses a few third-party libraries to save its author some
+work.
+<p>
+The files required by the prospective Quoteriser do-it-yourselfers are:
+<dl>
+<dt><code>quot210s.zip</code>
+<dd>The Quoteriser source code itself; this file is in it, so one presumes
+    the reader already has it.
+<dt><code>gnugdbm.zip</code>
+<dd>The GNU database manager, which the Quoteriser uses for its database
+    management functions
+<dt><code>gnurx.zip</code>
+<dd>The GNU Rx regular expression library. It is probably possible to
+    substitute another regular expression library without undue difficulty,
+    if the reader already has one installed on their system - see
+    <a href="#regexp">Using another regular expression library</a> below.
+    This is not required for non-OS/2 compilation.
+</dl>
+<p>
+Note that OS/2 GNU dbm and GNU Rx may not be able to be used out of the box;
+check the <a href="#notes">compile notes</a> below.
+<p>
+The Quoteriser also comes packaged with the author's xtype library (in the
+xtype sub-directory), which is documented separately. This library should be
+installed before attempting to install the Quoteriser.
+<p>
+Of course, the reader will also require compilers, linkers and other standard
+development tools. The author assumes that the reader has all these things
+installed, given that he or she has set him- or herself to compile a program.
+<hr>
+<a name="manifest">
+<h3>Manifest</h3>
+</a>
+<p>
+Here is a list of all the source files that make up the Quoteriser, and
+a brief description of what they are:
+<table border=0>
+<tr><td><code>build.cmd          </code><td>- OS/2 build script for EMX and GNU make
+<tr><td><code>Makefile           </code><td>- OS/2 make file (pre-configured for EMX and GNU make)
+<tr><td><code>Makefile.unx       </code><td>- generic make file (pre-configured for Unix ELF GCC)
+<tr><td>                                <td>
+<tr><td><code>include\authors.h  </code><td>- header file for author manipulation routines
+<tr><td><code>include\general.h  </code><td>- header file for miscellaneous routines
+<tr><td><code>include\html.h     </code><td>- header file for HTML parsing routines
+<tr><td><code>include\pmutil.h   </code><td>- header file for miscellaneous PM routines
+<tr><td><code>include\qotd.h     </code><td>- header file for Quote-of-the-day program
+<tr><td><code>include\quoter.h   </code><td>- header file for main Quoteriser program
+<tr><td><code>include\quoterc.h  </code><td>- header file for database compilation routines
+<tr><td><code>include\quotes.h   </code><td>- header file for quote manipulation routines
+<tr><td><code>include\threads.h  </code><td>- header file for threads
+<tr><td><code>include\types.h    </code><td>- some type definitions for the main program
+<tr><td><code>include\typeset.h  </code><td>- header file for typesetting routines
+<tr><td>                                <td>
+<tr><td><code>src\qotd.def       </code><td>- definition file for qotd.exe
+<tr><td><code>src\quoter.def     </code><td>- definition file for quoter.exe
+<tr><td><code>src\quoter1.def    </code><td>- definition file for quoter1.dll (normal version)
+<tr><td><code>src\quoter1d.def   </code><td>- definition file for quoter1.dll (debug version)
+<tr><td><code>src\quoterc.def    </code><td>- definition file for quoterc.exe
+<tr><td><code>src\quoterdb.def   </code><td>- definition file for quoterdb.dll
+<tr><td><code>src\quoterla.def   </code><td>- definition file for quoterla.dll
+<tr><td><code>src\sig.def        </code><td>- definition file for sig.exe
+<tr><td>                                <td>
+<tr><td><code>src\adlg.rc        </code><td>- author dialogue box resources
+<tr><td><code>src\qdlg.rc        </code><td>- quote dialogue box resources
+<tr><td><code>src\qotd.rc        </code><td>- Quote-of-the-day resources
+<tr><td><code>src\quoter.rc      </code><td>- miscellaneous main program resources
+<tr><td><code>src\settings.rc    </code><td>- settings dialogue box resources
+<tr><td>                                <td>
+<tr><td><code>src\adb.c          </code><td>- author database routines
+<tr><td><code>src\adlg.c         </code><td>- author dialogue and menu routines
+<tr><td><code>src\asearch.c      </code><td>- author searching routines
+<tr><td><code>src\athreads.c     </code><td>- threads for dealing with authors
+<tr><td><code>src\authors.c      </code><td>- author manipulation routines
+<tr><td><code>src\dir.c          </code><td>- path name manipulation utilities
+<tr><td><code>src\html.c         </code><td>- basic HTML parsing routines
+<tr><td><code>src\htmlattr.c     </code><td>- HTML tag attribute parsing routines
+<tr><td><code>src\pmscroll.c     </code><td>- scroll bar utilities
+<tr><td><code>src\pmspawn.c      </code><td>- process management utilities
+<tr><td><code>src\qccmd.c        </code><td>- compiler command file routines
+<tr><td><code>src\qcdata.c       </code><td>- compiler data file routines
+<tr><td><code>src\qdb.c          </code><td>- quote database routines
+<tr><td><code>src\qdlg.c         </code><td>- quote dialogue and menu routines
+<tr><td><code>src\qotd.c         </code><td>- Quote-of-the-day main program
+<tr><td><code>src\qotd_p.c       </code><td>- Quote-of-the-day painting routines
+<tr><td><code>src\qsearch.c      </code><td>- quote searching routines
+<tr><td><code>src\qthreads.c     </code><td>- threads for dealing with quotes
+<tr><td><code>src\quoter.c       </code><td>- Quoteriser main program
+<tr><td><code>src\quoterc.c      </code><td>- database compiler main program
+<tr><td><code>src\quoter_p.c     </code><td>- Quoteriser main program painting routines
+<tr><td><code>src\quotes.c       </code><td>- quote manipulation routines
+<tr><td><code>src\settings.c     </code><td>- settings dialogue routines and utilities
+<tr><td><code>src\sig.c          </code><td>- signature generator main program
+<tr><td><code>src\str.c          </code><td>- string manipulation routines
+<tr><td><code>src\typeset.c      </code><td>- HTML typesetting routines
+<tr><td>                                <td>
+<tr><td><code>etc\quoter.ico     </code><td>- Quoteriser icon
+<tr><td>                                <td>
+<tr><td><code>etc\gdbm.pat       </code><td>- patch to fix OS/2 GDBM's make file
+<tr><td><code>etc\gnurx.pat      </code><td>- patch to alter OS/2 GNU Rx's make file
+<tr><td>
+<tr><td><code>xtype\*            </code><td>- xtype library, documented separately; pre-configured for EMX/GCC
+</table>
+<hr>
+<a name="notes">
+<h3>Compile Notes</h4>
+</a>
+The author hopes that the reader will find compiling the Quoteriser will be
+a relatively painless process, regardless of which compiler and make utility
+is used, and the layout of the reader's system.
+<p>
+The Quoteriser was developed with the EMX/GCC C compiler and GNU Make, using
+the standard resource compiler that comes with OS/2. If the reader is using
+this combination, he or she is in luck and should have to do a very small
+amount of work. The truly fortunate will simply have to run the build script
+provided. Otherwise, some things will need to be tweaked.
+<p>
+The OS/2 compilation process is straightforward. All the <code>.c</code> files
+are compiled into object files. Import libraries for the DLLs are formed from
+the <code>.def</code> files using an import library generator ('implib',
+apparently, on most systems, but 'emximp' for EMX). The appropriate object and
+library files are then linked into <code>.exe</code> and <code>.dll</code>
+files.
+<p>
+The C library functions are put into the <code>quoter1.dll</code> library (so
+that the binary distribution doesn't require users to have the EMX run-time
+libraries to be installed). As the author has no experience with other compilers,
+he does not have the slightest idea how other compilers feel about this or how
+they handle their library functions. For this, the reader is on his or her own.
+<p>
+The non-OS/2 process is similar, except that all the common code is put into
+a library called 'quoter', which is then linked with the main programs.
+<p>
+The make file is very Unix in that it uses forward slashes for directory
+separators. This is because EMX and GNU Make prefer it this way, and because
+the author likes to separate the directory separator from the escape character.
+If the reader's compiler/make don't like this, do a global search-and-replace
+to change all the forward slashes to back slashes.
+<p>
+Before trying to compile the Quoteriser, the reader should install the xtype
+library. How to do this is described in separate documentation in the xtype
+sub-directory. The OS/2 build script provided will do this automatically, but
+note that everything is pre-configured for EMX and GNU Make, and that EMX is
+installed in \emx on the current drive.
+<p>
+Before trying to compile the OS/2 Quoteriser, the reader should read at least
+the sections on the GNU libraries and ensure that they are installed
+correctly. Unfortunately, unzipping the packages and typing 'make' may not
+be good enough to get them working. EMX users may also wish to read the
+<a href="#minimal">minimal Quoteriser</a> section (and, for all the author
+knows, this section might be useful to other users).
+<p>
+Non-OS/2 users should read the section on systems other than OS/2 below.
+<p>
+<a name="other_c">
+<h4>Compilers other than EMX</h4>
+</a>
+<a>
+As the Quoteriser has been written as much as possible using only standard C
+and OS/2 API calls, compilation with a different compiler should be
+straightforward. The only non-standard C functions used are _beginthread()
+and stat().
+<p>
+All OS/2 compilers (that this author has heard of) have _beginthread(), though
+some do not have what is the second argument in EMX' implementation (which serves
+no purpose and is always NULL). If the reader's compiler is one of the latter
+sort, simply remove the dud argument from all the _beginthread() calls. EMX does
+not like the DosCreateThread() API call, hence the use of _beginthread().
+<p>
+The stat() function is a common Unix function that is hopefully available on
+the reader's compiler. If not, he or she will need to re-write the QuoteDBStat()
+and AuthorDBStat() functions to avoid the use of stat(). The author hopes to
+eliminate the calls to stat() in future versions, though implementing this in
+standard C is likely to be a little messy.
+<p>
+Obviously, the options to pass to the compiler will change from compiler to
+compiler. Edit the make file to set these options appropriately; the comments
+in the make file list what all the macros mean.
+<a name="other_m">
+<h4>Make utilities other than GNU</h4>
+</a>
+<p>
+Using another make utility should be relatively painless. The reader will need
+to alter the pattern rules to use his or her make's syntax. The meanings of
+the GNU make automatic variables used are as follows:
+<ul>
+<li><code>$&lt;</code> - the name of the first dependency in the list (the 'source file')
+<li><code>$^</code> - all the dependencies in the list
+<li><code>$@</code> - the name of the target file
+</ul>
+The automatic variables should be replaced with the equivalent for the reader's
+make utility.
+<p>
+Some makes may not define the $(MAKE) macro used for calling make recursively;
+if not, replace this with the name of the make in question.
+<p>
+DMAKE has trouble with shell commands in make files; it needs to be told by
+putting 'cmd' in front of shell commands like 'if' and 'del'; this may require
+some work around the <code>clean-objs</code> and <code>spotless-exes</code>
+section of the make file.
+<a name="changes">
+<h4>What might need to be changed</h4>
+</a>
+<p>
+Other than translating the make file for the reader's make and possibly altering
+the code for other compilers, there may still be a few things to do.
+<p>
+The standard version of the code assumes that the headers for the two GNU libraries
+are <code>&lt;gnu/*.h&gt</code>;. If the system has them somewhere else, this will
+need to be changed. The files that are compiled into <code>quoterdb.dll</code> are
+the ones that will need to be changed (sed should do the trick nicely).
+<p>
+The user may wish to, or may need to, change the names of programs used and options
+passed to them in the make file. Go through the first four blocks in the make file,
+(up to and including the targets) changing the values of macros as desired/necessary,
+according to the meaning of the macro shown in the comment.
+<p>
+Check that the pattern rules are suitable for the compiler being used. Some compilers
+may prefer using slashes instead of dashes for denoting options, and some compilers
+may have different names for -o (name of output file) and -c (compile only).
+<p>
+<a name="gdbm">
+<h4>GNU database manager</h4>
+</a>
+<p>
+There is a bug in at least one version of GDBM for OS/2 (the version on ftp.leo.org,
+I believe) that will cause the Quoteriser to fail during compilation. If the linker
+complains that there is an undefined symbol 'gdbm_exists', this is why.
+<p>
+The make file packaged with GDBM omits <code>gdbmexists.c</code> and
+<code>gdbmexist.o</code> from the compilation process. This is trivial to fix,
+of course. The file <code>etc/gdbm.pat</code> is a patch to fix the version of
+the make file that the author has. Either fix the make file manually, or run
+<code>gpatch Makefile.os2 &lt; gdbm.pat</code> if GNU patch ('gpatch', to
+distinguish it from OS/2's 'patch') is installed. Re-compile the library and
+everything should be okay.
+<p>
+<a name="gnurx">
+<h4>GNU Rx</h4>
+</a>
+<p>
+GNU Rx for OS/2, out of the box, requires the EMX run-time libraries (emxrt.zip) to
+be installed. If these are installed, then the reader doesn't have to worry about
+this - but beware that the re-compiled Quoteriser will need <code>gnurx.dll</code>
+to be present somewhere in the LIBPATH if this is the case. Just make sure the
+<code>rx.lib</code> import library and the header files are in the right place, and
+go.
+<p>
+The standard binary distribution statically links GNU Rx so that the EMX run-time
+libraries are not required. To do so, GNU Rx has to be re-compiled as a static
+library instead of a dynamic one (i.e. use 'ar' or whatever instead of 'implib').
+Again, this should be fairly simple if the reader knows what he or she is doing.
+The author's patch for the makefile is in <code>etc/gnurx.pat</code>. Running
+<code>gpatch Makefile.os2 &lt; gnurx.pat</code> with GNU patch will fix the
+make file for EMX. Re-compile and go.
+<hr>
+<a name="regexp">
+<h3>Using another regular expression library</h3>
+</a>
+<p>
+There are other regular expression libraries around that will work just as well
+as GNU Rx. A popular choice is Henry Spencer's library (<code>regexp.tar.gz</code>).
+EMX users will find that this library is shipped with EMX (as <code>regexp.lib</code>).
+<p>
+To use a different regular expression library, the make file and the files
+<code>asearch.c</code>, <code>qsearch.c</code>, <code>quotes.h</code> and
+<code>authors.h</code> will need to be changed. It is also possible that
+<code>quoter1.def</code> will need to be changed (as the new library might
+require different C library functions).
+<p>
+In the make file, change the occurrences of '<code>rx$(L)</code>' to the name of the new
+regular expression library ('<code>regexp$(L)</code>' for Henry Spencer).
+<p>
+In the source and header files, replace <code>&lt;gnu/rxall.h&gt;</code> and
+<code>&lt;gnu/rxposix.h&gt;</code> with the header file(s) for the new library
+(<code>&lt;regexp.h&gt;</code> for Henry Spencer). It may also be necessary
+to alter the calls to regcomp(), regexec() and regfree() functions if the
+libary has a different view of things to GNU Rx.
+<p>
+Lastly, if the link now complains about C library functions missing, add these
+functions to <code>quoter1.def</code> and try again.
+<hr>
+<a name="minimal">
+<h4>A minimal Quoteriser</h4>
+</a>
+<p>
+EMX users can greatly reduce the size of their Quoteriser executables by taking
+advantage of the EMX run-time libraries (<code>emxrt.zip</code>). To do so, GNU
+Rx should be compiled as the original dynamic library (and have <code>gnurx.dll</code>
+in the LIBPATH) and not the static library used in the standard distribution.
+<p>
+Alter the makefile so that <code>-Zcrtdll</code> is passed to every linking
+stage; i.e. remove the '<code>=quoter1</code>' stuff. Change the LCFLAGS macro to be the
+same as the LLFLAGS macro.
+<p>
+Now, get rid of all the C library stuff in <code>quoter1.def</code>; i.e.
+the stuff below the line that says 'Everything below this line is imported
+from the EMX run-time libraries...'. (Actually, the <code>quoter1d.def</code>
+file is already like this.)
+<p>
+Now re-compile and a good 120k or more should be removed from the resulting
+executables.
+<hr>
+<a name="generic">
+<h3>Systems other than OS/2</h3>
+<p>
+As of Version 2.10, a subset of Quoteriser programs (sig and quoterc) are
+available for compilation under systems other than OS/2 using the GENERIC
+macro. The main Quoteriser program and the quote-of-the-day utility use OS/2
+Presentation Manager API calls and therefore cannot be compiled for other
+systems.
+<p>
+Defining GENERIC at compile time #ifdef's out any OS/2-specific code from the
+source files required to build the signature generator and the database
+compiler. The code that remains is strict POSIX/ANSI C, except for the use of
+the stat() library function in QuoteDBStat() and AuthorDBStat(). Every compiler
+this author has seen has stat(); if the reader's does not, he or she will have
+to re-write these two functions.
+<p>
+The Makefile.unx file shipped with the Quoteriser source code is designed to
+be readily converted for compilation on any sensible system. It has been
+pre-configured for Unix ELF GCC, and has been tested under Linux and Solaris
+using this configuration. The author expects that modifying it for other Unix
+configurations should be trivial.
+<p>
+Before compiling, read the <a href="#changes">What might need to be changed</a>
+section above.
+<hr>
+<a name="help">
+<h4>Help</h4>
+</a>
+<p>
+If the reader is having trouble with compiling the Quoteriser, and has exhausted
+all the help in this file, the author is happy to help in any way he can. Remember,
+though, that he can't answer questions about specifics of compilers other than EMX
+or makes other than GNU. RTFM.
+<p>
+If the author can make changes to future releases of the Quoteriser that would
+make the reader's life easier (without hurting anyone else, of course), he
+would be most happy to incorporate them. This might be by getting rid of stat(),
+providing some extra macros in the make file, etc.
+<p>
+If the reader can help the author make the Quoteriser easier to transport between
+compilers, he or she is most welcome to help. Alternative make files,
+<code>quoter1.def</code>s, etc., for other compilers can be submitted to the
+author at <a href="mailto:nps@zeta.org.au">nps@zeta.org.au</a>. The usual
+addition to the credits and warm, fuzzy feeling applies.
+<p>
+Happy compiling.
+</body>
+</html>

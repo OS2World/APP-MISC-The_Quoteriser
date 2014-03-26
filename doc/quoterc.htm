@@ -1,0 +1,387 @@
+<html>
+<head>
+<title>The Quoteriser: Introduction</title>
+</head>
+
+<body>
+<center>
+<h1>The Quoteriser, Version 2.10</h1>
+<h2>Database Compiler</h2>
+</center>
+<p>
+Contents:
+<ol>
+<li><a href="#intro">Introduction</a>
+<li><a href="#using">Using quoterc</a>
+<li><a href="#command">Command files</a>
+<li><a href="#format">Format strings</a>
+<li><a href="#examples">Examples</a>
+    <ol>
+    <li><a href="#eg_adb">An author database</a>
+    <li><a href="#eg_qdb">A quote database</a>
+    </ol>
+<li><a href="#errors">Error messages</a>
+</ol>
+<hr>
+<a name="intro">
+<h3>Introduction</h3>
+</a>
+<p>
+<b>Note:</b> The Quoteriser's database compiler is somewhat experimental. I had
+originally planned it for version 3.00, but I fast-tracked development because
+I wanted to use it for something. Future versions may not be back-compatible
+with this version, so please don't get <i>too</i> carried away with the current
+version.
+<p>
+The Quoteriser's database compiler is a utility for compiling quote and author
+databases from text files, or de-compiling databases into a text file format.
+It was written with the intention of converting plain text quote dictionaries
+and similar things into Quoteriser databases. Some users may also find it easier
+to enter large amounts of data using the compiler rather than by using the GUI.
+If the Quoteriser has been compiled for a non-OS/2 system, of course, there
+will be no GUI at all (unless the user also has an OS/2 version somewhere).
+<p>
+The database compiler is probably the simplest program possible for the job.
+The author could have spend a lot of time writing a fantastically sophisticated
+compiler that could (say) compile the Bible into all its proper verses from
+some free-format text file. However, if the user could program such a
+sophisticated Quoteriser, the user can probably also use one of the many good
+text-manipulation languages (such as Perl) to convert his or her free-format
+Bible (or whatever) into the stricter format required by the Quoteriser.
+<hr>
+<a name="using">
+<h3>Using quoterc</h3>
+</a>
+<p>
+The command line syntax for quoterc is:
+<p>
+<code>quoterc &lt;command1&gt; [&lt;command2&gt;] [&lt;command3&gt;] ...</code>
+<p>
+where <code>&lt;commandN&gt;</code>'s are the names of command files, the format
+of which is described in the <a href="#command">command files</a> section below.
+Command files are usually given the extension <code>.qc</code>, which can be
+omitted from the command line, if desired.
+<p>
+The quoterc program processes each command file in order, aborting with a short
+error message if it runs into an error. Command files are interpreted, not
+compiled, and so anything occuring before an error will be executed (like
+BASIC).
+<p>
+If quoterc is run without any arguments, it will print out a brief help screen.
+<hr>
+<a name="command">
+<h3>Command files</h3>
+</a>
+Command files are plain text files made up of sequences of sections consisting
+of a header and some commands delimited by braces:
+<pre>
+&lt;mode&gt; &lt;type&gt; &lt;database&gt; {
+	&lt;command1&gt;;
+	&lt;command2&gt;;
+	   :
+	&lt;commandN&gt;;
+}
+</pre>
+<p>
+(It is not necessary to indent the command lines; this author simply does so
+from long habit of programming). There can be as many such sections as the user
+wishes. Keywords are case-insensitive; that is, <code>COMPILE</code> is the
+same as <code>compile</code>, and so on (but the database name will be
+case-sensitive if the local file system is, of course).
+<dl>
+<dt><code>&lt;mode&gt;</code>
+<dd>Either the word "compile" or the word "decompile", specifying whether the
+    database is being compiled from a text file, or de-compiled into one.
+<dt><code>&lt;type&gt;</code>
+<dd>Either the word "authors" or the word "quotes", specifying what type of
+    database is being used.
+<dt><code>&lt;database&gt;</code>
+<dd>The name of the database being processed, without extension. If the database
+    is to be de-compiled, it must exist or an error will be reported.
+</dl>
+<p>
+Each command is a line consisting of a keyword, one or more arguments and then
+a semi-colon. Possible commands are:
+<dl>
+<dt><code>append &lt;file&gt; &lt;format&gt;;</code>
+<dd>If compiling, add all the quotes/authors in <code>&lt;file&gt;</code> to the
+    database. If de-compiling, append all the quotes/authors in the database to
+    <code>&lt;file&gt;</code>, creating the file if it doesn't exist.
+<dt><code>author &lt;code&gt;;</code>
+<dd>(For compiling quotes only). Assign this author code to all the quotes.
+<dt><code>authors &lt;database&gt;;</code>
+<dd>(For de-compiling quotes only). Obtain author information from the author
+    database <code>&lt;database&gt;</code>. The database name should have no
+    extension.
+<dt><code>create &lt;file&gt; &lt;format&gt;;</code>
+<dd>If compiling, create a new database (deleting any old one of the same name)
+    containing the quotes/authors in <code>&lt;file&gt;</code>. If de-compiling,
+    create a file <code>&lt;file&gt;</code> containing all quotes/authors in
+    the database.
+<dt><code>source &lt;title&gt;;</code>
+<dd>(For compiling quotes only). Assign this source title to all the quotes.
+<dt><code>stem &lt;code&gt;;</code>
+<dd>(For compiling only). Automatically-generated quote/author codes will begin
+    with <code>&lt;code&gt;</code>.
+</dl>
+<p>
+The <code>&lt;format&gt;</code> string is detailed in the <a href="#format">
+format string</a> section below.
+<p>
+If one of the parameters contains a space, tab or semi-colon, this must be
+escaped by use of a percent sign to distinguish it from the word delimiters.
+That is, use '% ' for a space and '%;' for a semi-colon. Use '%%' for a percent
+sign.
+<p>
+When compiling, if the format string does not contain a %a (authors) or %q
+(quotes) item, the author/quote code will be generated automatically using a
+counter, and the current stem as specified by the "stem" command. The stem
+defaults to an empty string. The first code will be 000000000000000000001, the
+second 0000000000000000002, and so on. When in append mode, codes that are
+already in the database will not be generated for the new data.
+<hr>
+<p>
+<a name="format">
+<h3>Format Strings</h3>
+</a>
+<p>
+The <code>&lt;format&gt;</code> string specifies the format of the text file.
+When de-compiling, it specifies what the output will look like, and when
+compiling it specifies what the Quoteriser should expect to find in its input
+files. Designing a good format string can be quite an art form, particularly
+for compilation.
+<p>
+A format string is a sequence of characters and special symbols a little like
+the format argument to the printf() function in C. Ordinary characters are
+written verbatim to the output when de-compiling, or are expected to exist
+verbatim in the input. Special symbols are used to indicate where the database
+data should be.
+<p>
+Each data item is represented by a % character followed by another character,
+as follows:
+<dl>
+<dt>%a
+<dd>Author code
+<dt>%b
+<dd>The author's birth date
+<dt>%d
+<dd>The author's description
+<dt>%f
+<dd>The author's given name
+<dt>%g
+<dd>The author's surname
+<dt>%q
+<dd>Quote code
+<dt>%s
+<dd>The quote's source
+<dt>%t
+<dd>The quote text
+<dt>%x
+<dd>The author's death date
+<dt>%1, %2, %3, %4 and %5
+<dd>Quote keywords
+</dl>
+<p>
+In addition to the data items, there also some special symbols for producing
+and recognising characters that can't be inserted verbatim into the command
+file:
+<dl>
+<dt>%n
+<dd>A new line.
+<dt>%%
+<dd>A percent sign.
+<dt>%_
+<dd>When de-compiling, this prints a space character. When compiling, this
+    symbol will match any white space character, that is, a tab, a space or
+    a new line. Note that the CR/LF pair at the end of the line on PC systems
+    is treated as a single white space character.
+<dt>%;
+<dd>A semi-colon.
+<dt>%>
+<dd>A tab character.
+</dl>
+<p>
+Note that the special symbols are case-sensitive, that is, "%A" is different
+from "%a". If a % character is followed by a character that does not form a
+valid special symbol, the Quoteriser will ignore the % character.
+<p>
+A format string must start with one of the data item symbols.
+<p>
+When de-compiling, the Quoteriser simply prints each character (replacing
+special symbols with database data) in sequence.
+<p>
+When compiling, the Quoteriser uses the non-data items to delimit items that it
+reads into the database. There is, therefore, quite an art to selecting
+delimiting patterns that do not occur anywhere in the input data. For example,
+delimiting with the obvious punctuation symbols such as commas and semi-colons
+can be hazardous because quote texts and author descriptions generally contain
+such punctuation, and this will hopelessly confuse the compiler. Quote texts
+and author descriptions will need to be delimited by combinations of symbols
+that do not occur in ordinary text, such as multiple blanks lines and
+conglomerations of punctuation marks.
+<hr>
+<p>
+<a name="examples">
+<h3>Examples</h3>
+</a>
+<a name="eg_adb">
+<h4>Example 1: an author database</h4>
+</a>
+<p>
+Suppose we wished to build a biographical database of all the English
+monarchs. We will be a little cavalier with the meanings of the Quoteriser's
+fields and use the birth and death fields to represent the monarch's reign.
+Each monarch will have a given name (including his or her numeral), the
+limits of his or her reign and a one-line description. We will give a separate
+sequence of automatically-generated author codes to each house. Our database
+will be called <code>england</code>. We could do this with the following command
+file:
+<pre>
+compile authors england {
+	stem WESTSAXON
+	create westsaxon.txt %f%_(%b-%x):%_%d%n;
+	stem DANISH
+	append danish.txt %f%_(%b-%x):%_%d%n;
+	stem NORMAN
+	append norman.txt %f%_(%b-%x):%_%d%n;
+	   :       :             :
+	stem WINDSOR
+	append windsor.txt %f%_(%b-%x):%_%d%n;
+}
+</pre>
+<p>
+One way or another, we will have prepared a series of plain text files called
+westsaxon.txt, danish.txt, and so on, containing the data, all in the same
+format (though we could have specified different formats for each if we had
+wanted). For example, the Danish kings are in file danish.txt:
+<pre>
+Canute (1016-1035): King of England, Denmark and Norway
+Hardicanute (1035-1042): Absent in Denmark 1035-1037; restored 1040-1042
+Harold I (1037-1040): Regent 1035-1037; king 1037-1040
+</pre>
+<p>
+Canute will be assigned code DANISH0000000000001, Hardicanute will be assigned
+code DANISH0000000000002 and Harold will be assigned code DANISH0000000000003.
+William the Conqueror will be NORMAN0000000000001 and Elizabeth II will be
+WINDSOR000000000005. As Elizabeth II is still reigning at the time of writing,
+the closing parenthesis will immediately follow the dash in the date section,
+and the compiler will read an empty entry for this field.
+<p>
+Having compiled the database, we could dump all of our monarchs into a text
+file called monarchs.txt using the following command file:
+<pre>
+decompile authors england {
+	create monarchs.txt %a%_--%_%f%_(%b-%x)%>%d%n;
+}
+</pre>
+<p>
+Which will produce lines like:
+<pre>
+PLANTAGENET00000002 -- Richard I (1189-1199)	Absent for most of his reign
+WINDSOR000000000003 -- Edward VIII (1936-1936)	Abdicated due to proposed marriage
+</pre>
+<p>
+Note that the monarchs output in this way will not be in any recognisable order.
+This could be fixed, for example, by using the 'sort' program.
+<a name="eg_qdb">
+<h4>Example 2: a quote database</h4>
+</a>
+<p>
+We are going to build a database of some famous quotes. Since William
+Shakespeare has provided so many, we will devote a whole file shakespeare.txt
+to him, and all the other authors will have to share a file quotes.txt.
+<pre>
+compile quotes mydb {
+	author SHAKESPEARE;
+	create shakespeare.txt %t%n%n-%_%s%n%n;
+	append quotes.txt %t%_(%a)%n;
+}
+</pre>
+<p>
+Note that the %a item in the quotes.txt line over-rides the specification of
+SHAKESPEARE as the author. Without this %a, all these quotes would also be
+attributed to SHAKESPEARE.
+<p>
+Here are some cheery quotes from our shakespeare.txt file:
+<pre>
+To be or not to be: that is the question:&lt;br&gt;
+Whether 'tis nobler in the mind to suffer&lt;br&gt;
+The slings and arrows of outrageous fortune,&lt;br&gt;
+Or to take arms against a sea of troubles,&lt;br&gt;
+And by opposing end them?
+
+- Hamlet
+
+Life's but a walking shadow, a poor player&lt;br&gt;
+That struts and frets his hour upon the stage&lt;br&gt;
+And then is heard no more: it is a tale&lt;br&gt;
+Told by an idiot, full of sound and fury,&lt;br&gt;
+Signifying nothing.
+
+- Macbeth
+
+</pre>
+Since there are line-breaks within the quotes themselves, we need to delimit
+them with two line breaks (i.e. a blank line). Note that we need an extra
+blank line at the end of the file to match the last two line breaks when
+reading the Macbeth quote.
+<p>
+The format of our other quote file is somewhat different:
+<pre>
+No man is an island. (DONNE)
+Ask not what your country can do for you, but what you can do for your country. (JFK)
+I came, I saw, I conquered. (CAESAR)
+</pre>
+<p>
+It is assumed that all of our quotes here will be one-liners, and so we need only
+a single %n character to delimit them. Note that the item read by %a is the
+author's code in whatever author database that is to be used with the compiled
+quote database, not the author's name.
+<hr>
+<a name="errors">
+<h4>Error Messages</h4>
+</a>
+<p>
+The database compiler has a weird and wonderful array of terse and cryptic error
+messages. Here, we list them all and give long desriptions of what they mean
+and what may have caused them.
+<dl>
+<dt><b>out of memory</b>
+<dd>The program could not allocate enough memory to do whatever it was trying
+    to do.On modern operating systems with virtual memory, this shouldn't
+    happen unless you do something really silly (like try to read in a
+    five-hundred-megabyte quote).
+<dt><b>file error</b>
+<dd>There was some error while trying to read or write the file. I don't know
+    what might cause this.
+<dt><b>unrecognised command keyword</b>
+<dd>The compiler found a keyword it does not recognise - probably a typo.
+<dt><b>database type missing</b>
+<dd>The "authors" or "quotes" word is missing from the header.
+<dt><b>unrecognised database type</b>
+<dd>Something other than "authors" or "quotes" appears at this position in the
+    header.
+<dt><b>missing file name</b>
+<dd>The database name is missing from the header
+<dt><b>could not open file</b>
+<dd>The compiler could not open a file, probably because it doesn't exist or
+    the compiler doesn't have permission to open it.
+<dt><b>missing format string</b>
+<dd>The format string is missing from a "create" or "append" line.
+<dt><b>invalid data item</b>
+<dd>There is a data item symbol in the format string that does not make sense
+    for the task at hand - e.g. quote text (%t) when compiling authors.
+<dt><b>permission denied</b>
+<dd>The compiler was denied permission to do something; probably open a file
+    or database.
+<dt><b>missing argument</b>
+<dd>An argument is missing from a command line.
+<dt><b>format doesn't start with an data item</b>
+<dd>The format string doesn't begin with a data item (%a, %q, etc.)
+<dt><b>undelimited data items</b>
+<dd>Two data items are adjacent to each other in the format string with
+    nothing to separate them.
+<dt><b>unknown error</b>
+<dd>Something unanticipated by the author has gone wrong. Please report all
+    occurrences of unknown errors as bugs.
+</dl>

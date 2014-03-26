@@ -1,0 +1,151 @@
+LIBRARY	QUOTER1
+DESCRIPTION	'The Quoteriser - miscellaneous routine library (C) 1997-1998 Nicholas Paul Sheppard'
+
+DATA		MULTIPLE NONSHARED
+
+EXPORTS
+;
+; general.h
+;
+	cgetc			@1
+	dircat			@2
+	dirfname		@3
+	dirnoext		@4
+	dirsimp			@5
+	strabbrev		@6
+	strboxf			@7
+	strcmpci		@8
+	strencl			@9
+	stresctok		@10
+	strfchr			@11
+	strfromf		@12
+	strtncpy		@13
+	strpre			@14
+	strreplace		@15
+	strrmchr		@16
+;
+; pmutil.h
+;
+	ScrollMetafile		@17
+	ScrollMsgHandler	@18
+	ScrollSetGeometry	@19
+	SpawnPM			@20
+;
+; Routines from the xtype library
+;
+	fgetxstr		@21
+	xstrcat			@22
+	xstrcatc		@23
+	xstrcpy			@24
+	xstrcvt			@25
+	xstrdel			@26
+	xstrfree		@27
+	xstrncat		@28
+	xstrnew			@29
+	xstrtrunc		@30
+
+;
+; Everything below this line is exported from the EMX run-time libraries,
+; copied from cdll.def as per Eberhard's instructions, portions of which
+; are included below. I suppose this makes it (C) 1993-96 Eberhard Mattes.
+;
+; If you're not using EMX, you will probably have to get rid of this stuff
+; (use quoter1d.def instead).
+;
+;
+
+; The following symbols are used by the startup code and must
+; always be exported
+;
+  _entry1                       ; For startup code
+  _entry2                       ; For startup code
+  _startup                      ; For startup code
+  __ctordtorInit1               ; For startup code
+  __ctordtorTerm1               ; For startup code
+  atexit                        ; For startup code: atexit()
+  exit                          ; For startup code: exit()
+
+
+;
+; The following symbols are used by the startup code and must be
+; exported if the DLL does not use emx.dll.  If the DLL does use
+; emx.dll, these symbols must not be exported
+;
+  _emx_init                     ; {SYS} For startup code
+  _emx_syscall                  ; {SYS} For startup code
+
+;
+; Choose from the following symbols, depending on whether creating
+; a single-thread or multithread library
+;
+  _errno_fun                    ; {MT} For multithread library: errno
+
+;
+; The remaining symbols are optional
+;
+  _beginthread                  ; {MT}
+  _bzero                        ; {ALIASED}
+  _CRT_init
+  _close                        ; {ALIASED}
+  _ctype
+  _endthread                    ; {MT}
+  _errno
+  _flock                        ; {ALIASED}
+  _fstat                        ; {ALIASED}
+  _fsync                        ; {ALIASED}
+  _ftruncate                    ; {ALIASED}
+  _lseek                        ; {ALIASED}
+  _open                         ; {ALIASED}
+  _read                         ; {ALIASED}
+  _stat                         ; {ALIASED}
+  _streamv
+  _write                        ; {ALIASED}
+  _unlink                       ; {ALIASED}
+  atoi
+  fclose
+  fgetc
+  fgets
+  fopen
+  fprintf
+  fputc
+  fputs
+  free
+  fseek
+  ftell
+  getenv
+  isalnum
+  isalpha
+  iscntrl
+  isdigit
+  isgraph
+  islower
+  isprint
+  ispunct
+  isspace
+  isupper
+  isxdigit
+  malloc
+  memcpy
+  memset
+  printf
+  rand
+  realloc
+  rename
+  sprintf
+  srand
+  sscanf
+  strcat
+  strchr
+  strcmp
+  strcpy
+  strerror
+  strlen
+  strncat
+  strncmp
+  strncpy
+  strrchr
+  strstr
+  strtok
+  time
+  tmpnam
+  tolower

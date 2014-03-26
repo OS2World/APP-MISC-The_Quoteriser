@@ -1,0 +1,196 @@
+#
+# Makefile for the generic Quoteriser. The file is shipped with defaults
+# for creating Unix ELF executables. Testing was done under Linux and
+# Solaris, using GCC and GNU Make. Other systems may require degrees of
+# massaging ranging from the trivial (e.g. Unix a.out) to the extreme
+# (e.g. Windows).
+#
+#      Created: 7th September 1998
+# Version 2.10: 2nd December 1998
+#
+# (C) 1998 Nicholas Paul Sheppard
+#
+# This file is distributed under the GNU General Public License. See the
+# file COPYING for details.
+#
+
+
+#
+# Directories. Mine are for compiling files from sub-directories of the
+# current directory into binaries in different sub-directories of the
+# current directory.
+#
+# SRC   - directory for source files
+# INCL  - directory for header files
+# BIN   - directory for executables
+# DOC   - directory for documentation
+# DIST  - directory into which to place distribution files
+# ETC   - directory for misellaneous files (icons)
+#
+
+SRC   = src
+INCL  = include
+BIN   = bin
+DOC   = doc
+DIST  = .
+ETC   = etc
+
+#
+# Compiler and linker names, options, directories, etc..
+#
+# CC       - name of the compiler
+# CFLAGS   - compiler flags
+# LD       - name of the linker
+# LDFLAGS  - linker flags
+# AR       - name of librarian
+# ARFLAGS  - librarian flags
+# O        - extension for object files
+# LIB      - prefix for library files
+# A        - extension for library files
+# X        - extension for executable files
+#
+
+CC       = gcc
+CFLAGS   = -I$(INCL) -DGENERIC -Wall -O2 -fPIC
+LD       = gcc
+LDFLAGS  = -L$(BIN)
+AR       = gcc
+ARFLAGS  = -shared
+O        = .o
+LIB      = lib
+A        = .so
+X        =
+
+#
+# Other programs
+#
+# RM   - command to use for deletion of files
+# ZIP  - command to use for archiving files
+# Z    - extension for archive
+#
+RM  = rm -f
+ZIP = tar cfvz
+Z   = .tar.gz
+
+#
+# Targets.
+#
+# Note that there is a 'package' target at the end of the makefile, as are
+# the clean-* targets that actually do the work
+#
+
+.PHONY: \
+bin lib clean spotless package clean-objs spotless-exes
+
+all: lib
+	$(MAKE) -f Makefile.unx bin
+
+bin: $(BIN)/sig$(X) $(BIN)/quoterc$(X)
+
+lib: $(BIN)/$(LIB)quoter$(A)
+
+clean: clean-objs
+
+spotless: clean spotless-exes
+
+#
+# Pattern rule for object files
+#
+
+$(BIN)/%$(O): $(SRC)/%.c
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+#
+# Pattern rule for libraries
+#
+
+$(BIN)/%$(A):
+	$(AR) $(ARFLAGS) -o $@ $^
+
+#
+# Pattern rule for executables
+#
+
+$(BIN)/%$(X):
+	$(LD) $(LDFLAGS) -o $@ $^ -lquoter -lgdbm -lxtype
+
+#
+# Executable dependencies
+#
+
+$(BIN)/sig$(X): $(BIN)/sig$(O)
+$(BIN)/quoterc$(X): $(BIN)/quoterc$(O)
+
+#
+# Library dependencies
+#
+$(BIN)/$(LIB)quoter$(A): \
+$(BIN)/adb$(O) $(BIN)/asearch$(O) $(BIN)/authors$(O) $(BIN)/html$(O) \
+$(BIN)/htmlattr$(O) $(BIN)/qccmd$(O) $(BIN)/qcdata$(O) $(BIN)/qdb$(O) \
+$(BIN)/qsearch$(O) $(BIN)/quotes$(O) $(BIN)/str$(O) $(BIN)/typeset$(O)
+
+#
+# Object file dependencies
+#
+
+$(BIN)/adb$(O): $(SRC)/adb.c $(INCL)/authors.h
+$(BIN)/asearch$(O): $(SRC)/asearch.c $(INCL)/authors.h
+$(BIN)/authors$(O): $(SRC)/authors.c $(INCL)/authors.h
+$(BIN)/html$(O): $(SRC)/html.c $(INCL)/html.h $(INCL)/general.h
+$(BIN)/htmlattr$(O): $(SRC)/htmlattr.c $(INCL)/html.h $(INCL)/general.h
+$(BIN)/qccmd$(O): $(SRC)/qccmd.c $(INCL)/authors.h $(INCL)/general.h $(INCL)/quoterc.h $(INCL)/quotes.h
+$(BIN)/qcdata$(O): $(SRC)/qcdata.c $(INCL)/authors.h $(INCL)/quoterc.h $(INCL)/quotes.h
+$(BIN)/qdb$(O): $(SRC)/qdb.c $(INCL)/quotes.h
+$(BIN)/qsearch$(O): $(SRC)/qsearch.c $(INCL)/quotes.h
+$(BIN)/quoterc$(O): $(SRC)/quoterc.c $(INCL)/quoterc.h
+$(BIN)/quotes$(O): $(SRC)/quotes.c $(INCL)/quotes.h
+$(BIN)/sig$(O): $(SRC)/sig.c $(INCL)/quotes.h $(INCL)/authors.h $(INCL)/html.h $(INCL)/general.h $(INCL)/typeset.h
+$(BIN)/str$(O): $(SRC)/str.c $(INCL)/general.h
+$(BIN)/typeset$(O): $(SRC)/typeset.c $(INCL)/typeset.h $(INCL)/html.h
+
+#
+# Include file dependencies
+#
+$(INCL)/quoterc.h: $(INCL)/authors.h $(INCL)/quotes.h
+$(INCL)/quotes.h: $(INCL)/authors.h
+
+#
+# Rules for cleaning up the mess we've made
+#
+
+clean-objs:
+	$(RM) $(BIN)/*$(O)
+
+spotless-exes:
+	$(RM) $(BIN)/*$(X)
+
+#
+# Rules for producing the distribution packages.
+#
+package: $(DIST)/quoteriser-2.10-src$(Z)
+
+$(DIST)/%$(Z):
+	$(ZIP) $@ $^
+
+#
+# This is the list of files that go into the quoteriser-2.10-src (source)
+# distribution file. We package all the source files even though this make
+# file is only for the generic build.
+#
+$(DIST)/quoteriser-2.10-src$(Z): \
+bin debug build.cmd install.cmd readme.txt $(DOC)/copying.txt $(ETC)/quoter.ico \
+Makefile Makefile.unx $(ETC)/gdbm.pat $(ETC)/gnurx.pat \
+$(INCL)/authors.h $(INCL)/general.h $(INCL)/html.h $(INCL)/pmutil.h \
+$(INCL)/qotd.h $(INCL)/quoter.h $(INCL)/quotes.h \
+$(INCL)/threads.h $(INCL)/types.h $(INCL)/typeset.h \
+$(SRC)/adb.c $(SRC)/adlg.c $(SRC)/asearch.c $(SRC)/athreads.c $(SRC)/authors.c \
+$(SRC)/dir.c $(SRC)/html.c $(SRC)/htmlattr.c $(SRC)/pmscroll.c $(SRC)/pmspawn.c \
+$(SRC)/qccmd.c $(SRC)/qcdata.c $(SRC)/qdb.c $(SRC)/qdlg.c $(SRC)/qotd.c \
+$(SRC)/qotd_p.c $(SRC)/qsearch.c $(SRC)/qthreads.c $(SRC)/quoter.c $(SRC)/quoterc.c \
+$(SRC)/quoter_p.c $(SRC)/quotes.c $(SRC)/settings.c $(SRC)/sig.c $(SRC)/str.c \
+$(SRC)/typeset.c $(SRC)/adlg.rc $(SRC)/qdlg.rc $(SRC)/qotd.rc $(SRC)/quoter.rc \
+$(SRC)/settings.rc $(SRC)/qotd.def $(SRC)/quoter.def  $(SRC)/sig.def \
+$(SRC)/quoterc.def $(SRC)/quoter1.def $(SRC)/quoterc.def $(SRC)/quoterdb.def \
+$(SRC)/quoter1d.def $(SRC)/quoterla.def \
+$(DOC)/history.txt $(DOC)/intro.htm $(DOC)/quoter.htm $(DOC)/quoterc.htm \
+$(DOC)/qotd.htm $(DOC)/sig.htm $(DOC)/source.htm
